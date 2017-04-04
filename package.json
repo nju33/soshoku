@@ -1,0 +1,97 @@
+{
+  "name": "soshoku",
+  "description": "Request re-execution during processing Even when you come back and forth, you only re-execute once",
+  "version": "0.0.0",
+  "author": "nju33 <nju33.ki@gmail.com>",
+  "ava": {
+    "files": [
+      "test/specs/*.js"
+    ],
+    "require": [
+      "babel-register"
+    ],
+    "babel": "inherit"
+  },
+  "bugs": "https://github.com/nju33/soshoku/issues",
+  "dependencies": {},
+  "devDependencies": {
+    "@nju33/less": "^0.0.2",
+    "@nju33/postcss-preset": "^0.0.3",
+    "@nju33/rollup-preset": "^0.0.1",
+    "ava": "^0.18.2",
+    "babel-eslint": "^7.2.1",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-transform-class-properties": "^6.23.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.3.2",
+    "babel-register": "^6.24.0",
+    "beeper": "^1.1.1",
+    "browser-sync": "^2.18.8",
+    "case": "^1.5.2",
+    "chokidar": "^1.6.1",
+    "lodash": "^4.17.4",
+    "meow": "^3.7.0",
+    "nightmare": "^2.10.0",
+    "nullpo": "^0.0.2",
+    "ora": "^1.2.0",
+    "p-pipe": "^1.0.0",
+    "pify": "^2.3.0",
+    "poipoi": "^0.0.1",
+    "postcss": "^5.2.16",
+    "pretty-error": "^2.0.3",
+    "rollup": "^0.41.6",
+    "sinon": "^2.1.0",
+    "xo": "^0.18.1"
+  },
+  "homepage": "https://github.com/nju33/soshoku#readme",
+  "jsnext:main": "dist/soshoku.es.js",
+  "keywords": [
+    "commonjs",
+    "es",
+    "iife"
+  ],
+  "license": "MIT",
+  "main": "dist/soshoku.umd.js",
+  "module": "dist/soshoku.es.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "nju33/soshoku",
+  "scripts": {
+    "build": "NODE_ENV=dev node -r babel-register task.config.js build",
+    "build:umd": "NODE_ENV=prod node -r babel-register task.config.js build --beep --format umd",
+    "build:prod": "NODE_ENV=prod node -r babel-register task.config.js build",
+    "dev": "NODE_ENV=dev node -r babel-register task.config.js dev --beep",
+    "dev:browser": "NODE_ENV=dev node -r babel-register task.config.js dev --beep",
+    "prepublish": "yarn build:prod",
+    "test": "yarn test:xo && yarn test:ava",
+    "pretest:ava": "yarn build:umd",
+    "test:ava": "ava -w",
+    "test:xo": "xo {lib,tasks,test}/**/*.js task.config.js"
+  },
+  "xo": {
+    "env": [
+      "node",
+      "browser"
+    ],
+    "space": 2,
+    "parser": "babel-eslint",
+    "overrides": [
+      {
+        "files": "test/fixtures/*js",
+        "esnext": false,
+        "globals": [
+          "soshoku"
+        ]
+      },
+      {
+        "files": "example/webpack/index.js",
+        "rules": {
+          "import/no-unresolved": "off"
+        }
+      }
+    ]
+  }
+}
