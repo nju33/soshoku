@@ -1,7 +1,7 @@
 {
   "name": "soshoku",
   "description": "Request re-execution during processing Even when you come back and forth, you only re-execute once",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "nju33 <nju33.ki@gmail.com>",
   "ava": {
     "files": [
