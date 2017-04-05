@@ -77,8 +77,13 @@ class Script {
   async write({script}, results) {
     Object.keys(results).map(async format => {
       const {code, map} = results[format];
-      const output = script.dest[format];
-      const basename = path.basename(output);
+      let output = script.dest[format];
+      let basename = path.basename(output);
+      if (format === 'iife' && process.env.NODE_ENV === 'prod') {
+        const $basename = basename;
+        basename = path.basename(output, '.js') + '.min.js';
+        output = output.replace($basename, basename);
+      }
       const writeFile = pify(fs.writeFile);
       await writeFile(output, code + `\n//# sourceMappingURL=${basename}.map`);
       await writeFile(output + '.map', map.toString());

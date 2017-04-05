@@ -3,10 +3,11 @@ import sinon from 'sinon';
 import Soshoku from '../..';
 
 test('test', t => {
-  console.log('---');
   const clock = sinon.useFakeTimers();
   const cb = sinon.spy();
+  let soshoku = null;
   let count = 1;
+
   const fn = () => {
     return new Promise(resolve => {
       setTimeout(() => {
@@ -33,7 +34,7 @@ test('test', t => {
     });
   };
 
-  const soshoku = new Soshoku(fn);
+  soshoku = new Soshoku(fn);
 
   soshoku.exec();
   setTimeout(() => {

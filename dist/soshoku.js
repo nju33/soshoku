@@ -1,149 +1,2061 @@
-var _Mathmin=Math.min,Soshoku=function(){'use strict';function d(Ec){return Ec&&Ec.__esModule?Ec['default']:Ec}function h(Ec,Fc){return Fc={exports:{}},Ec(Fc,Fc.exports),Fc.exports}var j='undefined'==typeof window?'undefined'==typeof global?'undefined'==typeof self?{}:self:global:window,k=h(function(Ec){!function(Fc){'use strict';function Gc(kd,ld,md,nd){// If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
-var od=ld&&ld.prototype instanceof Ic?ld:Ic,pd=Object.create(od.prototype),qd=new Rc(nd||[]);// The ._invoke method unifies the implementations of the .next,
-// .throw, and .return methods.
-return pd._invoke=Nc(kd,md,qd),pd}// Try/catch helper to minimize deoptimizations. Returns a completion
-// record like context.tryEntries[i].completion. This interface could
-// have been (and was previously) designed to take a closure to be
-// invoked without arguments, but in all the cases we care about we
-// already have an existing method we want to call, so there's no need
-// to create a new function object. We can even get away with assuming
-// the method takes exactly one argument, since that happens to be true
-// in every case, so we don't have to touch the arguments object. The
-// only additional allocation required is the completion record, which
-// has a stable shape and so hopefully should be cheap to allocate.
-function Hc(kd,ld,md){try{return{type:'normal',arg:kd.call(ld,md)}}catch(nd){return{type:'throw',arg:nd}}}// Dummy constructor functions that we use as the .constructor and
-// .constructor.prototype properties for functions that return Generator
-// objects. For full spec compliance, you may wish to configure your
-// minifier not to mangle the names of these two functions.
-function Ic(){}function Jc(){}function Kc(){}// This is a polyfill for %IteratorPrototype% for environments that
-// don't natively support it.
-// Helper for defining the .next, .throw, and .return methods of the
-// Iterator interface in terms of a single ._invoke method.
-function Lc(kd){['next','throw','return'].forEach(function(ld){kd[ld]=function(md){return this._invoke(ld,md)}})}function Mc(kd){function ld(od,pd,qd,rd){var sd=Hc(kd[od],kd,pd);if('throw'===sd.type)rd(sd.arg);else{var td=sd.arg,ud=td.value;return ud&&'object'==typeof ud&&Vc.call(ud,'__await')?Promise.resolve(ud.__await).then(function(vd){ld('next',vd,qd,rd)},function(vd){ld('throw',vd,qd,rd)}):Promise.resolve(ud).then(function(vd){td.value=vd,qd(td)},rd)}}'object'==typeof process&&process.domain&&(ld=process.domain.bind(ld));var nd;this._invoke=function(od,pd){function qd(){return new Promise(function(rd,sd){ld(od,pd,rd,sd)})}return nd=// If enqueue has been called before, then we want to wait until
-// all previous Promises have been resolved before calling invoke,
-// so that results are always delivered in the correct order. If
-// enqueue has not been called before, then it is important to
-// call invoke immediately, without waiting on a callback to fire,
-// so that the async generator function has the opportunity to do
-// any necessary setup in a predictable way. This predictability
-// is why the Promise constructor synchronously invokes its
-// executor callback, and why async functions synchronously
-// execute code before the first await. Since we implement simple
-// async functions in terms of async generators, it is especially
-// important to get this right, even though it requires care.
-nd?nd.then(qd,// Avoid propagating failures to Promises returned by later
-// invocations of the iterator.
-qd):qd()}// Define the unified helper method that is used to implement .next,
-// .throw, and .return (see defineIteratorMethods).
-}function Nc(kd,ld,md){var nd=ad;return function(pd,qd){if(nd==cd)throw new Error('Generator is already running');if(nd==dd){if('throw'===pd)throw qd;// Be forgiving, per 25.3.3.3.3 of the spec:
-// https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
-return Tc()}for(md.method=pd,md.arg=qd;;){var rd=md.delegate;if(rd){var sd=Oc(rd,md);if(sd){if(sd===ed)continue;return sd}}if('next'===md.method)md.sent=md._sent=md.arg;else if('throw'===md.method){if(nd==ad)throw nd=dd,md.arg;md.dispatchException(md.arg)}else'return'===md.method&&md.abrupt('return',md.arg);nd=cd;var td=Hc(kd,ld,md);if('normal'===td.type){if(nd=md.done?dd:bd,td.arg===ed)continue;return{value:td.arg,done:md.done}}'throw'===td.type&&(nd=dd,md.method='throw',md.arg=td.arg)}}}// Call delegate.iterator[context.method](context.arg) and handle the
-// result, either by returning a { value, done } result from the
-// delegate iterator, or by modifying context.method and context.arg,
-// setting context.delegate to null, and returning the ContinueSentinel.
-function Oc(kd,ld){var md=kd.iterator[ld.method];if(md===Wc){if(ld.delegate=null,'throw'===ld.method){if(kd.iterator.return&&(ld.method='return',ld.arg=Wc,Oc(kd,ld),'throw'===ld.method))// If maybeInvokeDelegate(context) changed context.method from
-// "return" to "throw", let that override the TypeError below.
-return ed;ld.method='throw',ld.arg=new TypeError('The iterator does not provide a \'throw\' method')}return ed}var nd=Hc(md,kd.iterator,ld.arg);if('throw'===nd.type)return ld.method='throw',ld.arg=nd.arg,ld.delegate=null,ed;var od=nd.arg;if(!od)return ld.method='throw',ld.arg=new TypeError('iterator result is not an object'),ld.delegate=null,ed;if(od.done)ld[kd.resultName]=od.value,ld.next=kd.nextLoc,'return'!==ld.method&&(ld.method='next',ld.arg=Wc);else// Re-yield the result returned by the delegate method.
-return od;// The delegate iterator is finished, so forget it and continue with
-// the outer generator.
-return ld.delegate=null,ed}// Define Generator.prototype.{next,throw,return} in terms of the
-// unified ._invoke helper method.
-function Pc(kd){var ld={tryLoc:kd[0]};1 in kd&&(ld.catchLoc=kd[1]),2 in kd&&(ld.finallyLoc=kd[2],ld.afterLoc=kd[3]),this.tryEntries.push(ld)}function Qc(kd){var ld=kd.completion||{};ld.type='normal',delete ld.arg,kd.completion=ld}function Rc(kd){this.tryEntries=[{tryLoc:'root'}],kd.forEach(Pc,this),this.reset(!0)}function Sc(kd){if(kd){var ld=kd[Yc];if(ld)return ld.call(kd);if('function'==typeof kd.next)return kd;if(!isNaN(kd.length)){var md=-1,nd=function od(){for(;++md<kd.length;)if(Vc.call(kd,md))return od.value=kd[md],od.done=!1,od;return od.value=Wc,od.done=!0,od};return nd.next=nd}}// Return an iterator with no values.
-return{next:Tc}}function Tc(){return{value:Wc,done:!0}}var Wc,Uc=Object.prototype,Vc=Uc.hasOwnProperty,Xc='function'==typeof Symbol?Symbol:{},Yc=Xc.iterator||'@@iterator',Zc=Xc.toStringTag||'@@toStringTag',_c=Fc.regeneratorRuntime;// More compressible than void 0.
-if(_c)// Don't bother evaluating the rest of this file if the runtime was
-// already defined globally.
-return void(Ec.exports=_c);// Define the runtime globally (as expected by generated code) as either
-// module.exports (if we're in a module) or a new, empty object.
-_c=Fc.regeneratorRuntime=Ec.exports,_c.wrap=Gc;var ad='suspendedStart',bd='suspendedYield',cd='executing',dd='completed',ed={},fd={};// Returning this object from the innerFn has the same effect as
-// breaking out of the dispatch switch statement.
-fd[Yc]=function(){return this};var gd=Object.getPrototypeOf,hd=gd&&gd(gd(Sc([])));hd&&hd!==Uc&&Vc.call(hd,Yc)&&(fd=hd);var jd=Kc.prototype=Ic.prototype=Object.create(fd);Jc.prototype=jd.constructor=Kc,Kc.constructor=Jc,Kc[Zc]=Jc.displayName='GeneratorFunction',_c.isGeneratorFunction=function(kd){var ld='function'==typeof kd&&kd.constructor;return!!ld&&(ld===Jc||// For the native GeneratorFunction constructor, the best we can
-// do is to check its .name property.
-'GeneratorFunction'===(ld.displayName||ld.name))},_c.mark=function(kd){return Object.setPrototypeOf?Object.setPrototypeOf(kd,Kc):(kd.__proto__=Kc,!(Zc in kd)&&(kd[Zc]='GeneratorFunction')),kd.prototype=Object.create(jd),kd},_c.awrap=function(kd){return{__await:kd}},Lc(Mc.prototype),_c.AsyncIterator=Mc,_c.async=function(kd,ld,md,nd){var od=new Mc(Gc(kd,ld,md,nd));return _c.isGeneratorFunction(ld)?od// If outerFn is a generator, return the full iterator.
-:od.next().then(function(pd){return pd.done?pd.value:od.next()})},Lc(jd),jd[Zc]='Generator',jd.toString=function(){return'[object Generator]'},_c.keys=function(kd){var ld=[];for(var md in kd)ld.push(md);// Rather than returning an object with a next method, we keep
-// things simple and return the next function itself.
-return ld.reverse(),function nd(){for(;ld.length;){var od=ld.pop();if(od in kd)return nd.value=od,nd.done=!1,nd}// To avoid creating an additional object, we just hang the .value
-// and .done properties off the next function object itself. This
-// also ensures that the minifier will not anonymize the function.
-return nd.done=!0,nd}},_c.values=Sc,Rc.prototype={constructor:Rc,reset:function(kd){if(this.prev=0,this.next=0,this.sent=this._sent=Wc,this.done=!1,this.delegate=null,this.method='next',this.arg=Wc,this.tryEntries.forEach(Qc),!kd)for(var ld in this)// Not sure about the optimal order of these conditions:
-'t'===ld.charAt(0)&&Vc.call(this,ld)&&!isNaN(+ld.slice(1))&&(this[ld]=Wc)},stop:function(){this.done=!0;var kd=this.tryEntries[0],ld=kd.completion;if('throw'===ld.type)throw ld.arg;return this.rval},dispatchException:function(kd){function ld(sd,td){return pd.type='throw',pd.arg=kd,md.next=sd,td&&(md.method='next',md.arg=Wc),!!td}if(this.done)throw kd;for(var md=this,nd=this.tryEntries.length-1;0<=nd;--nd){var od=this.tryEntries[nd],pd=od.completion;if('root'===od.tryLoc)// Exception thrown outside of any try block that could handle
-// it, so set the completion value of the entire function to
-// throw the exception.
-return ld('end');if(od.tryLoc<=this.prev){var qd=Vc.call(od,'catchLoc'),rd=Vc.call(od,'finallyLoc');if(qd&&rd){if(this.prev<od.catchLoc)return ld(od.catchLoc,!0);if(this.prev<od.finallyLoc)return ld(od.finallyLoc)}else if(qd){if(this.prev<od.catchLoc)return ld(od.catchLoc,!0);}else if(!rd)throw new Error('try statement without catch or finally');else if(this.prev<od.finallyLoc)return ld(od.finallyLoc)}}},abrupt:function(kd,ld){for(var nd,md=this.tryEntries.length-1;0<=md;--md)if(nd=this.tryEntries[md],nd.tryLoc<=this.prev&&Vc.call(nd,'finallyLoc')&&this.prev<nd.finallyLoc){var od=nd;break}od&&('break'===kd||'continue'===kd)&&od.tryLoc<=ld&&ld<=od.finallyLoc&&(od=null);var pd=od?od.completion:{};return pd.type=kd,pd.arg=ld,od?(this.method='next',this.next=od.finallyLoc,ed):this.complete(pd)},complete:function(kd,ld){if('throw'===kd.type)throw kd.arg;return'break'===kd.type||'continue'===kd.type?this.next=kd.arg:'return'===kd.type?(this.rval=this.arg=kd.arg,this.method='return',this.next='end'):'normal'===kd.type&&ld&&(this.next=ld),ed},finish:function(kd){for(var md,ld=this.tryEntries.length-1;0<=ld;--ld)if(md=this.tryEntries[ld],md.finallyLoc===kd)return this.complete(md.completion,md.afterLoc),Qc(md),ed},'catch':function(kd){for(var md,ld=this.tryEntries.length-1;0<=ld;--ld)if(md=this.tryEntries[ld],md.tryLoc===kd){var nd=md.completion;if('throw'===nd.type){var od=nd.arg;Qc(md)}return od}// The context.catch method must only be called with a location
-// argument that corresponds to a known catch block.
-throw new Error('illegal catch attempt')},delegateYield:function(kd,ld,md){return this.delegate={iterator:Sc(kd),resultName:ld,nextLoc:md},'next'===this.method&&(this.arg=Wc),ed}}}(// Among the various tricks for obtaining a reference to the global
-// object, this seems to be the most reliable technique that does not
-// use indirect eval (which violates Content Security Policy).
-'object'==typeof j?j:'object'==typeof window?window:'object'==typeof self?self:j)}),m='object'==typeof j?j:'object'==typeof window?window:'object'==typeof self?self:j,n=m.regeneratorRuntime&&0<=Object.getOwnPropertyNames(m).indexOf('regeneratorRuntime'),o=n&&m.regeneratorRuntime;// This method of obtaining a reference to the global object needs to be
-// kept identical to the way it is obtained in runtime.js
-// Use `getOwnPropertyNames` because not all browsers support calling
-// `hasOwnProperty` on the global `self` object in a worker. See #183.
-// Save the old regeneratorRuntime in case it needs to be restored later.
-if(m.regeneratorRuntime=void 0,n)m.regeneratorRuntime=o;else// Remove the global property added by runtime.js.
-try{delete m.regeneratorRuntime}catch(Ec){m.regeneratorRuntime=void 0}var q=k,t=Math.ceil,u=Math.floor,v=function(Ec){return isNaN(Ec=+Ec)?0:(0<Ec?u:t)(Ec)},w=function(Ec){if(void 0==Ec)throw TypeError('Can\'t call method on  '+Ec);return Ec},z=!0,A=h(function(Ec){// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
-var Fc=Ec.exports='undefined'!=typeof window&&window.Math==Math?window:'undefined'!=typeof self&&self.Math==Math?self:Function('return this')();'number'==typeof __g&&(__g=Fc)}),E=h(function(Ec){var Fc=Ec.exports={version:'2.4.0'};'number'==typeof __e&&(__e=Fc)}),G=function(Ec){if('function'!=typeof Ec)throw TypeError(Ec+' is not a function!');return Ec},H=function(Ec,Fc,Gc){return(G(Ec),void 0===Fc)?Ec:1===Gc?function(Hc){return Ec.call(Fc,Hc)}:2===Gc?function(Hc,Ic){return Ec.call(Fc,Hc,Ic)}:3===Gc?function(Hc,Ic,Jc){return Ec.call(Fc,Hc,Ic,Jc)}:function()/* ...args */{return Ec.apply(Fc,arguments)}},I=function(Ec){return'object'==typeof Ec?null!==Ec:'function'==typeof Ec},J=function(Ec){if(!I(Ec))throw TypeError(Ec+' is not an object!');return Ec},K=function(Ec){try{return!!Ec()}catch(Fc){return!0}},L=!K(function(){return 7!=Object.defineProperty({},'a',{get:function(){return 7}}).a}),M=A.document,N=I(M)&&I(M.createElement),Q=function(Ec){return N?M.createElement(Ec):{}},R=!L&&!K(function(){return 7!=Object.defineProperty(Q('div'),'a',{get:function(){return 7}}).a}),U=function(Ec,Fc){if(!I(Ec))return Ec;var Gc,Hc;if(Fc&&'function'==typeof(Gc=Ec.toString)&&!I(Hc=Gc.call(Ec)))return Hc;if('function'==typeof(Gc=Ec.valueOf)&&!I(Hc=Gc.call(Ec)))return Hc;if(!Fc&&'function'==typeof(Gc=Ec.toString)&&!I(Hc=Gc.call(Ec)))return Hc;throw TypeError('Can\'t convert object to primitive value')},V=Object.defineProperty,W=L?Object.defineProperty:function(Fc,Gc,Hc){if(J(Fc),Gc=U(Gc,!0),J(Hc),R)try{return V(Fc,Gc,Hc)}catch(Ic){/* empty */}if('get'in Hc||'set'in Hc)throw TypeError('Accessors not supported!');return'value'in Hc&&(Fc[Gc]=Hc.value),Fc},X={f:W},Y=function(Ec,Fc){return{enumerable:!(1&Ec),configurable:!(2&Ec),writable:!(4&Ec),value:Fc}},Z=L?function(Ec,Fc,Gc){return X.f(Ec,Fc,Y(1,Gc))}:function(Ec,Fc,Gc){return Ec[Fc]=Gc,Ec},$='prototype',_=function(Ec,Fc,Gc){var Qc,Rc,Sc,Hc=Ec&_.F,Ic=Ec&_.G,Jc=Ec&_.S,Kc=Ec&_.P,Lc=Ec&_.B,Mc=Ec&_.W,Nc=Ic?E:E[Fc]||(E[Fc]={}),Oc=Nc[$],Pc=Ic?A:Jc?A[Fc]:(A[Fc]||{})[$];for(Qc in Ic&&(Gc=Fc),Gc)Rc=!Hc&&Pc&&void 0!==Pc[Qc],Rc&&Qc in Nc||(Sc=Rc?Pc[Qc]:Gc[Qc],Nc[Qc]=Ic&&'function'!=typeof Pc[Qc]?Gc[Qc]// bind timers to global for call from export context
-:Lc&&Rc?H(Sc,A)// wrap global constructors for prevent change them in library
-:Mc&&Pc[Qc]==Sc?function(Tc){var Uc=function(Vc,Wc,Xc){if(this instanceof Tc){switch(arguments.length){case 0:return new Tc;case 1:return new Tc(Vc);case 2:return new Tc(Vc,Wc);}return new Tc(Vc,Wc,Xc)}return Tc.apply(this,arguments)};return Uc[$]=Tc[$],Uc;// make static versions for prototype methods
-}(Sc):Kc&&'function'==typeof Sc?H(Function.call,Sc):Sc,Kc&&((Nc.virtual||(Nc.virtual={}))[Qc]=Sc,Ec&_.R&&Oc&&!Oc[Qc]&&Z(Oc,Qc,Sc)))};// 7.1.4 ToInteger
-// 7.2.1 RequireObjectCoercible(argument)
-// true  -> String#at
-// false -> String#codePointAt
-// optional / simple context binding
-// Thank's IE8 for his funny defineProperty
-// 7.1.1 ToPrimitive(input [, PreferredType])
-// instead of the ES6 spec version, we didn't implement @@toPrimitive case
-// and the second argument - flag - preferred type is a string
-_.F=1,_.G=2,_.S=4,_.P=8,_.B=16,_.W=32,_.U=64,_.R=128;// real proto method for `library` 
-var aa=_,ca={}.hasOwnProperty,da=function(Ec,Fc){return ca.call(Ec,Fc)},ea={},fa={}.toString,ga=function(Ec){return fa.call(Ec).slice(8,-1)},ha=Object('z').propertyIsEnumerable(0)?Object:function(Ec){return'String'==ga(Ec)?Ec.split(''):Object(Ec)},ia=function(Ec){return ha(w(Ec))},ka=function(Ec){return 0<Ec?_Mathmin(v(Ec),9007199254740991):0;// pow(2, 53) - 1 == 9007199254740991
-},la=Math.max,na=function(Ec,Fc){return Ec=v(Ec),0>Ec?la(Ec+Fc,0):_Mathmin(Ec,Fc)},pa='__core-js_shared__',qa=A[pa]||(A[pa]={}),ra=function(Ec){return qa[Ec]||(qa[Ec]={})},sa=0,ta=Math.random(),ua=function(Ec){return'Symbol('.concat(void 0===Ec?'':Ec,')_',(++sa+ta).toString(36))},va=ra('keys'),wa=function(Ec){return va[Ec]||(va[Ec]=ua(Ec))},xa=function(Ec){return function(Fc,Gc,Hc){var Lc,Ic=ia(Fc),Jc=ka(Ic.length),Kc=na(Hc,Jc);// Array#includes uses SameValueZero equality algorithm
-if(Ec&&Gc!=Gc){for(;Jc>Kc;)if(Lc=Ic[Kc++],Lc!=Lc)return!0;// Array#toIndex ignores holes, Array#includes - not
-}else for(;Jc>Kc;Kc++)if((Ec||Kc in Ic)&&Ic[Kc]===Gc)return Ec||Kc||0;return!Ec&&-1}}(!1),ya=wa('IE_PROTO'),za=function(Ec,Fc){var Jc,Gc=ia(Ec),Hc=0,Ic=[];for(Jc in Gc)Jc!=ya&&da(Gc,Jc)&&Ic.push(Jc);// Don't enum bug & hidden keys
-for(;Fc.length>Hc;)da(Gc,Jc=Fc[Hc++])&&(~xa(Ic,Jc)||Ic.push(Jc));return Ic},Aa='constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'.split(','),Ba=Object.keys||function(Fc){return za(Fc,Aa)},Ca=L?Object.defineProperties:function(Fc,Gc){J(Fc);for(var Kc,Hc=Ba(Gc),Ic=Hc.length,Jc=0;Ic>Jc;)X.f(Fc,Kc=Hc[Jc++],Gc[Kc]);return Fc},Da=A.document&&document.documentElement,Ea=wa('IE_PROTO'),Fa=function(){/* empty */},Ga='prototype',Ha=function(){// Thrash, waste and sodomy: IE GC bug
-var Ic,Ec=Q('iframe'),Fc=Aa.length,Gc='<',Hc='>';for(Ec.style.display='none',Da.appendChild(Ec),Ec.src='javascript:',Ic=Ec.contentWindow.document,Ic.open(),Ic.write(Gc+'script'+Hc+'document.F=Object'+Gc+'/script'+Hc),Ic.close(),Ha=Ic.F;Fc--;)delete Ha[Ga][Aa[Fc]];return Ha()},Ia=Object.create||function(Fc,Gc){var Hc;return null===Fc?Hc=Ha():(Fa[Ga]=J(Fc),Hc=new Fa,Fa[Ga]=null,Hc[Ea]=Fc),void 0===Gc?Hc:Ca(Hc,Gc)},Ja=h(function(Ec){var Fc=ra('wks'),Gc=A.Symbol,Hc='function'==typeof Gc,Ic=Ec.exports=function(Jc){return Fc[Jc]||(Fc[Jc]=Hc&&Gc[Jc]||(Hc?Gc:ua)('Symbol.'+Jc))};Ic.store=Fc}),Ka=X.f,La=Ja('toStringTag'),Ma=function(Ec,Fc,Gc){Ec&&!da(Ec=Gc?Ec:Ec.prototype,La)&&Ka(Ec,La,{configurable:!0,value:Fc})},Na={};// fallback for non-array-like ES3 and non-enumerable old V8 strings
-// to indexed object, toObject with fallback for non-array-like ES3 strings
-// 7.1.15 ToLength
-// false -> Array#indexOf
-// true  -> Array#includes
-// IE 8- don't enum bug keys
-// 19.1.2.14 / 15.2.3.14 Object.keys(O)
-// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-// Create object with fake `null` prototype: use iframe Object with cleared prototype
-Z(Na,Ja('iterator'),function(){return this});var Oa=function(Ec,Fc,Gc){Ec.prototype=Ia(Na,{next:Y(1,Gc)}),Ma(Ec,Fc+' Iterator')},Pa=function(Ec){return Object(w(Ec))},Qa=wa('IE_PROTO'),Ra=Object.prototype,Sa=Object.getPrototypeOf||function(Ec){return Ec=Pa(Ec),da(Ec,Qa)?Ec[Qa]:'function'==typeof Ec.constructor&&Ec instanceof Ec.constructor?Ec.constructor.prototype:Ec instanceof Object?Ra:null},Ta=Ja('iterator'),Ua=!([].keys&&'next'in[].keys()),Wa='keys',Xa='values',Ya=function(){return this},Za=function(Ec,Fc,Gc,Hc,Ic,Jc,Kc){Oa(Gc,Fc,Hc);var Uc,Vc,Wc,Lc=function(Xc){return!Ua&&Xc in Pc?Pc[Xc]:Xc===Wa?function(){return new Gc(this,Xc)}:Xc===Xa?function(){return new Gc(this,Xc)}:function(){return new Gc(this,Xc)}},Mc=Fc+' Iterator',Nc=Ic==Xa,Oc=!1,Pc=Ec.prototype,Qc=Pc[Ta]||Pc['@@iterator']||Ic&&Pc[Ic],Rc=Qc||Lc(Ic),Sc=Ic?Nc?Lc('entries'):Rc:void 0,Tc='Array'==Fc?Pc.entries||Qc:Qc;// Fix native
-if(Tc&&(Wc=Sa(Tc.call(new Ec)),Wc!==Object.prototype&&(Ma(Wc,Mc,!0),!z)),Nc&&Qc&&Qc.name!==Xa&&(Oc=!0,Rc=function(){return Qc.call(this)}),Kc&&(Ua||Oc||!Pc[Ta])&&Z(Pc,Ta,Rc),ea[Fc]=Rc,ea[Mc]=Ya,Ic)if(Uc={values:Nc?Rc:Lc(Xa),keys:Jc?Rc:Lc(Wa),entries:Sc},Kc)for(Vc in Uc)Vc in Pc||Z(Pc,Vc,Uc[Vc]);else aa(aa.P+aa.F*(Ua||Oc),Fc,Uc);return Uc},$a=function(Ec){return function(Fc,Gc){var Kc,Lc,Hc=w(Fc)+'',Ic=v(Gc),Jc=Hc.length;return 0>Ic||Ic>=Jc?Ec?'':void 0:(Kc=Hc.charCodeAt(Ic),55296>Kc||56319<Kc||Ic+1===Jc||56320>(Lc=Hc.charCodeAt(Ic+1))||57343<Lc?Ec?Hc.charAt(Ic):Kc:Ec?Hc.slice(Ic,Ic+2):(Kc-55296<<10)+(Lc-56320)+65536)}}(!0);// 7.1.13 ToObject(argument)
-// 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
-Za(String,'String',function(Ec){this._t=Ec+'',this._i=0},function(){var Gc,Ec=this._t,Fc=this._i;return Fc>=Ec.length?{value:void 0,done:!0}:(Gc=$a(Ec,Fc),this._i+=Gc.length,{value:Gc,done:!1})});var _a=function(){/* empty */},ab=function(Ec,Fc){return{value:Fc,done:!!Ec}},bb=Za(Array,'Array',function(Ec,Fc){this._t=ia(Ec),this._i=0,this._k=Fc},function(){var Ec=this._t,Fc=this._k,Gc=this._i++;return!Ec||Gc>=Ec.length?(this._t=void 0,ab(1)):'keys'==Fc?ab(0,Gc):'values'==Fc?ab(0,Ec[Gc]):ab(0,[Gc,Ec[Gc]])},'values');// 22.1.3.4 Array.prototype.entries()
-// 22.1.3.13 Array.prototype.keys()
-// 22.1.3.29 Array.prototype.values()
-// 22.1.3.30 Array.prototype[@@iterator]()
-ea.Arguments=ea.Array,_a('keys'),_a('values'),_a('entries');for(var cb=Ja('toStringTag'),db=['NodeList','DOMTokenList','MediaList','StyleSheetList','CSSRuleList'],eb=0;5>eb;eb++){var fb=db[eb],gb=A[fb],hb=gb&&gb.prototype;hb&&!hb[cb]&&Z(hb,cb,fb),ea[fb]=ea.Array}// getting tag from 19.1.3.6 Object.prototype.toString()
-var Eb,Fb,Gb,ib=Ja('toStringTag'),jb='Arguments'==ga(function(){return arguments}()),kb=function(Ec,Fc){try{return Ec[Fc]}catch(Gc){/* empty */}},lb=function(Ec){var Fc,Gc,Hc;return void 0===Ec?'Undefined':null===Ec?'Null'// @@toStringTag case
-:'string'==typeof(Gc=kb(Fc=Object(Ec),ib))?Gc// builtinTag case
-:jb?ga(Fc)// ES3 arguments fallback
-:'Object'==(Hc=ga(Fc))&&'function'==typeof Fc.callee?'Arguments':Hc},mb=function(Ec,Fc,Gc,Hc){if(!(Ec instanceof Fc)||void 0!==Hc&&Hc in Ec)throw TypeError(Gc+': incorrect invocation!');return Ec},nb=function(Ec,Fc,Gc,Hc){try{return Hc?Fc(J(Gc)[0],Gc[1]):Fc(Gc);// 7.4.6 IteratorClose(iterator, completion)
-}catch(Jc){var Ic=Ec['return'];throw void 0!==Ic&&J(Ic.call(Ec)),Jc}},ob=Ja('iterator'),pb=Array.prototype,qb=function(Ec){return void 0!==Ec&&(ea.Array===Ec||pb[ob]===Ec)},rb=Ja('iterator'),sb=E.getIteratorMethod=function(Ec){if(void 0!=Ec)return Ec[rb]||Ec['@@iterator']||ea[lb(Ec)]},tb=h(function(Ec){var Fc={},Gc={},Hc=Ec.exports=function(Ic,Jc,Kc,Lc,Mc){var Qc,Rc,Sc,Tc,Nc=Mc?function(){return Ic}:sb(Ic),Oc=H(Kc,Lc,Jc?2:1),Pc=0;if('function'!=typeof Nc)throw TypeError(Ic+' is not iterable!');// fast case for arrays with default iterator
-if(qb(Nc)){for(Qc=ka(Ic.length);Qc>Pc;Pc++)if(Tc=Jc?Oc(J(Rc=Ic[Pc])[0],Rc[1]):Oc(Ic[Pc]),Tc===Fc||Tc===Gc)return Tc;}else for(Sc=Nc.call(Ic);!(Rc=Sc.next()).done;)if(Tc=nb(Sc,Oc,Rc.value,Jc),Tc===Fc||Tc===Gc)return Tc};Hc.BREAK=Fc,Hc.RETURN=Gc}),ub=Ja('species'),vb=function(Ec,Fc){var Hc,Gc=J(Ec).constructor;return void 0===Gc||void 0==(Hc=J(Gc)[ub])?Fc:G(Hc)},wb=function(Ec,Fc,Gc){var Hc=void 0===Gc;switch(Fc.length){case 0:return Hc?Ec():Ec.call(Gc);case 1:return Hc?Ec(Fc[0]):Ec.call(Gc,Fc[0]);case 2:return Hc?Ec(Fc[0],Fc[1]):Ec.call(Gc,Fc[0],Fc[1]);case 3:return Hc?Ec(Fc[0],Fc[1],Fc[2]):Ec.call(Gc,Fc[0],Fc[1],Fc[2]);case 4:return Hc?Ec(Fc[0],Fc[1],Fc[2],Fc[3]):Ec.call(Gc,Fc[0],Fc[1],Fc[2],Fc[3]);}return Ec.apply(Gc,Fc)},xb=A.process,yb=A.setImmediate,zb=A.clearImmediate,Ab=A.MessageChannel,Bb=0,Cb={},Db='onreadystatechange',Hb=function(){var Ec=+this;if(Cb.hasOwnProperty(Ec)){var Fc=Cb[Ec];delete Cb[Ec],Fc()}},Ib=function(Ec){Hb.call(Ec.data)};// fallback for IE11 Script Access Denied error
-// call something on iterator step with safe closing on error
-// check on default Array iterator
-// 7.3.20 SpeciesConstructor(O, defaultConstructor)
-// fast apply, http://jsperf.lnkit.com/fast-apply/5
-yb&&zb||(yb=function(Fc){for(var Gc=[],Hc=1;arguments.length>Hc;)Gc.push(arguments[Hc++]);return Cb[++Bb]=function(){wb('function'==typeof Fc?Fc:Function(Fc),Gc)},Eb(Bb),Bb},zb=function(Fc){delete Cb[Fc]},'process'==ga(xb)?Eb=function(Ec){xb.nextTick(H(Hb,Ec,1))}:Ab?(Fb=new Ab,Gb=Fb.port2,Fb.port1.onmessage=Ib,Eb=H(Gb.postMessage,Gb,1)):A.addEventListener&&'function'==typeof postMessage&&!A.importScripts?(Eb=function(Ec){A.postMessage(Ec+'','*')},A.addEventListener('message',Ib,!1)):Db in Q('script')?Eb=function(Ec){Da.appendChild(Q('script'))[Db]=function(){Da.removeChild(this),Hb.call(Ec)}}:Eb=function(Ec){setTimeout(H(Hb,Ec,1),0)});var Jb={set:yb,clear:zb},Kb=Jb.set,Lb=A.MutationObserver||A.WebKitMutationObserver,Mb=A.process,Nb=A.Promise,Ob='process'==ga(Mb),Rb=Ja('species'),Tb=Ja('iterator'),Ub=!1;try{var Vb=[7][Tb]();Vb['return']=function(){Ub=!0},Array.from(Vb,function(){throw 2})}catch(Ec){/* empty */}var dc,ec,fc,Xb=Jb.set,Yb=function(){var Ec,Fc,Gc,Hc=function(){var Lc,Mc;for(Ob&&(Lc=Mb.domain)&&Lc.exit();Ec;){Mc=Ec.fn,Ec=Ec.next;try{Mc()}catch(Nc){throw Ec?Gc():Fc=void 0,Nc}}Fc=void 0,Lc&&Lc.enter()};// Node.js
-if(Ob)Gc=function(){Mb.nextTick(Hc)};else if(Lb){var Ic=!0,Jc=document.createTextNode('');new Lb(Hc).observe(Jc,{characterData:!0}),Gc=function(){Jc.data=Ic=!Ic}}else if(Nb&&Nb.resolve){var Kc=Nb.resolve();Gc=function(){Kc.then(Hc)}}else Gc=function(){Kb.call(A,Hc)};return function(Lc){var Mc={fn:Lc,next:void 0};Fc&&(Fc.next=Mc),Ec||(Ec=Mc,Gc()),Fc=Mc}}(),Zb='Promise',$b=A.TypeError,_b=A.process,ac=A[Zb],_b=A.process,bc='process'==lb(_b),cc=function(){/* empty */},gc=!!function(){try{// correct subclassing with @@species support
-var Ec=ac.resolve(1),Fc=(Ec.constructor={})[Ja('species')]=function(Gc){Gc(cc,cc)};// unhandled rejections tracking support, NodeJS Promise without it fails @@species test
-return(bc||'function'==typeof PromiseRejectionEvent)&&Ec.then(cc)instanceof Fc}catch(Gc){/* empty */}}(),hc=function(Ec,Fc){// with library wrapper special case
-return Ec===Fc||Ec===ac&&Fc===fc},ic=function(Ec){var Fc;return I(Ec)&&'function'==typeof(Fc=Ec.then)&&Fc},jc=function(Ec){return hc(ac,Ec)?new kc(Ec):new ec(Ec)},kc=ec=function(Ec){var Fc,Gc;this.promise=new Ec(function(Hc,Ic){if(void 0!=Fc||void 0!=Gc)throw $b('Bad Promise constructor');Fc=Hc,Gc=Ic}),this.resolve=G(Fc),this.reject=G(Gc)},lc=function(Ec){try{Ec()}catch(Fc){return{error:Fc}}},mc=function(Ec,Fc){if(!Ec._n){Ec._n=!0;var Gc=Ec._c;Yb(function(){for(var Hc=Ec._v,Ic=1==Ec._s,Jc=0,Kc=function(Lc){var Qc,Rc,Mc=Ic?Lc.ok:Lc.fail,Nc=Lc.resolve,Oc=Lc.reject,Pc=Lc.domain;try{Mc?(!Ic&&(2==Ec._h&&pc(Ec),Ec._h=1),!0===Mc?Qc=Hc:(Pc&&Pc.enter(),Qc=Mc(Hc),Pc&&Pc.exit()),Qc===Lc.promise?Oc($b('Promise-chain cycle')):(Rc=ic(Qc))?Rc.call(Qc,Nc,Oc):Nc(Qc)):Oc(Hc)}catch(Sc){Oc(Sc)}};Gc.length>Jc;)Kc(Gc[Jc++]);// variable length - can't use forEach
-Ec._c=[],Ec._n=!1,Fc&&!Ec._h&&nc(Ec)})}},nc=function(Ec){Xb.call(A,function(){var Gc,Hc,Ic,Fc=Ec._v;if(oc(Ec)&&(Gc=lc(function(){bc?_b.emit('unhandledRejection',Fc,Ec):(Hc=A.onunhandledrejection)?Hc({promise:Ec,reason:Fc}):(Ic=A.console)&&Ic.error&&Ic.error('Unhandled promise rejection',Fc)}),Ec._h=bc||oc(Ec)?2:1),Ec._a=void 0,Gc)throw Gc.error})},oc=function(Ec){if(1==Ec._h)return!1;for(var Hc,Fc=Ec._a||Ec._c,Gc=0;Fc.length>Gc;)if(Hc=Fc[Gc++],Hc.fail||!oc(Hc.promise))return!1;return!0},pc=function(Ec){Xb.call(A,function(){var Fc;bc?_b.emit('rejectionHandled',Ec):(Fc=A.onrejectionhandled)&&Fc({promise:Ec,reason:Ec._v})})},qc=function(Ec){var Fc=this;Fc._d||(Fc._d=!0,Fc=Fc._w||Fc,Fc._v=Ec,Fc._s=2,!Fc._a&&(Fc._a=Fc._c.slice()),mc(Fc,!0))},rc=function(Ec){var Gc,Fc=this;if(!Fc._d){Fc._d=!0,Fc=Fc._w||Fc;// unwrap
-try{if(Fc===Ec)throw $b('Promise can\'t be resolved itself');(Gc=ic(Ec))?Yb(function(){var Hc={_w:Fc,_d:!1};// wrap
-try{Gc.call(Ec,H(rc,Hc,1),H(qc,Hc,1))}catch(Ic){qc.call(Hc,Ic)}}):(Fc._v=Ec,Fc._s=1,mc(Fc,!1))}catch(Hc){qc.call({_w:Fc,_d:!1},Hc)}}};// helpers
-gc||(ac=function(Fc){mb(this,ac,Zb,'_h'),G(Fc),dc.call(this);try{Fc(H(rc,this,1),H(qc,this,1))}catch(Gc){qc.call(this,Gc)}},dc=function(){this._c=[],this._a=void 0,this._s=0,this._d=!1,this._v=void 0,this._h=0,this._n=!1},dc.prototype=function(Ec,Fc,Gc){for(var Hc in Fc)Gc&&Ec[Hc]?Ec[Hc]=Fc[Hc]:Z(Ec,Hc,Fc[Hc]);return Ec}(ac.prototype,{// 25.4.5.3 Promise.prototype.then(onFulfilled, onRejected)
-then:function(Fc,Gc){var Hc=jc(vb(this,ac));return Hc.ok='function'!=typeof Fc||Fc,Hc.fail='function'==typeof Gc&&Gc,Hc.domain=bc?_b.domain:void 0,this._c.push(Hc),this._a&&this._a.push(Hc),this._s&&mc(this,!1),Hc.promise},// 25.4.5.1 Promise.prototype.catch(onRejected)
-'catch':function(Ec){return this.then(void 0,Ec)}}),kc=function(){var Ec=new dc;this.promise=Ec,this.resolve=H(rc,Ec,1),this.reject=H(qc,Ec,1)}),aa(aa.G+aa.W+aa.F*!gc,{Promise:ac}),Ma(ac,Zb),function(Ec){var Fc='function'==typeof E[Ec]?E[Ec]:A[Ec];L&&Fc&&!Fc[Rb]&&X.f(Fc,Rb,{configurable:!0,get:function(){return this}})}(Zb),fc=E[Zb],aa(aa.S+aa.F*!gc,Zb,{// 25.4.4.5 Promise.reject(r)
-reject:function(Fc){var Gc=jc(this),Hc=Gc.reject;return Hc(Fc),Gc.promise}}),aa(aa.S+aa.F*z,Zb,{// 25.4.4.6 Promise.resolve(x)
-resolve:function(Fc){// instanceof instead of internal slot check because we should fix it without replacement native Promise core
-if(Fc instanceof ac&&hc(Fc.constructor,this))return Fc;var Gc=jc(this),Hc=Gc.resolve;return Hc(Fc),Gc.promise}}),aa(aa.S+aa.F*!(gc&&function(Ec,Fc){if(!Fc&&!Ub)return!1;var Gc=!1;try{var Hc=[7],Ic=Hc[Tb]();Ic.next=function(){return{done:Gc=!0}},Hc[Tb]=function(){return Ic},Ec(Hc)}catch(Jc){/* empty */}return Gc}(function(Ec){ac.all(Ec)['catch'](cc)})),Zb,{// 25.4.4.1 Promise.all(iterable)
-all:function(Fc){var Gc=this,Hc=jc(Gc),Ic=Hc.resolve,Jc=Hc.reject,Kc=lc(function(){var Lc=[],Mc=0,Nc=1;tb(Fc,!1,function(Oc){var Pc=Mc++,Qc=!1;Lc.push(void 0),Nc++,Gc.resolve(Oc).then(function(Rc){Qc||(Qc=!0,Lc[Pc]=Rc,--Nc||Ic(Lc))},Jc)}),--Nc||Ic(Lc)});return Kc&&Jc(Kc.error),Hc.promise},// 25.4.4.4 Promise.race(iterable)
-race:function(Fc){var Gc=this,Hc=jc(Gc),Ic=Hc.reject,Jc=lc(function(){tb(Fc,!1,function(Kc){Gc.resolve(Kc).then(Hc.resolve,Ic)})});return Jc&&Ic(Jc.error),Hc.promise}});var sc=E.Promise,tc=h(function(Ec){Ec.exports={'default':sc,__esModule:!0}}),uc=h(function(Ec,Fc){'use strict';Fc.__esModule=!0;var Hc=function(Ic){return Ic&&Ic.__esModule?Ic:{default:Ic}}(tc);Fc.default=function(Ic){return function(){var Jc=Ic.apply(this,arguments);return new Hc.default(function(Kc,Lc){function Mc(Nc,Oc){try{var Pc=Jc[Nc](Oc),Qc=Pc.value}catch(Rc){return void Lc(Rc)}return Pc.done?void Kc(Qc):Hc.default.resolve(Qc).then(function(Rc){Mc('next',Rc)},function(Rc){Mc('throw',Rc)})}return Mc('next')})}}}),vc=d(uc),wc=h(function(Ec,Fc){'use strict';Fc.__esModule=!0,Fc.default=function(Gc,Hc){if(!(Gc instanceof Hc))throw new TypeError('Cannot call a class as a function')}}),xc=d(wc);aa(aa.S+aa.F*!L,'Object',{defineProperty:X.f});var yc=E.Object,zc=function(Fc,Gc,Hc){return yc.defineProperty(Fc,Gc,Hc)},Ac=h(function(Ec){Ec.exports={'default':zc,__esModule:!0}}),Bc=h(function(Ec,Fc){'use strict';Fc.__esModule=!0;var Hc=function(Ic){return Ic&&Ic.__esModule?Ic:{default:Ic}}(Ac);Fc.default=function(){function Ic(Jc,Kc){for(var Mc,Lc=0;Lc<Kc.length;Lc++)Mc=Kc[Lc],Mc.enumerable=Mc.enumerable||!1,Mc.configurable=!0,'value'in Mc&&(Mc.writable=!0),(0,Hc.default)(Jc,Mc.key,Mc)}return function(Jc,Kc,Lc){return Kc&&Ic(Jc.prototype,Kc),Lc&&Ic(Jc,Lc),Jc}}()}),Cc=d(Bc),Dc=function(){function Ec(Fc){xc(this,Ec),this.func=Fc,this.__pending=!1,this.__processing=!1}return Cc(Ec,[{key:'exec',value:function(){var Gc=vc(q.mark(function Hc(){return q.wrap(function(Jc){for(;;)switch(Jc.prev=Jc.next){case 0:if(!this.__processing){Jc.next=3;break}return this.__pending=!0,Jc.abrupt('return');case 3:return this.__processing=!0,Jc.next=6,this.func();case 6:if(this.__processing=!1,!this.__pending){Jc.next=11;break}return this.__pending=!1,Jc.next=11,this.exec();case 11:case'end':return Jc.stop();}},Hc,this)}));return function(){return Gc.apply(this,arguments)}}()}]),Ec}();return Dc}();/*!
+/*!
  * Copyright 2017, nju33
  * Released under the MIT License
  * https://github.com/nju33/soshoku
  */
+var Soshoku = (function () {
+'use strict';
+
+var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+
+
+function unwrapExports (x) {
+	return x && x.__esModule ? x['default'] : x;
+}
+
+function createCommonjsModule(fn, module) {
+	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+var runtime = createCommonjsModule(function (module) {
+/**
+ * Copyright (c) 2014, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * https://raw.github.com/facebook/regenerator/master/LICENSE file. An
+ * additional grant of patent rights can be found in the PATENTS file in
+ * the same directory.
+ */
+
+!(function(global) {
+  "use strict";
+
+  var Op = Object.prototype;
+  var hasOwn = Op.hasOwnProperty;
+  var undefined; // More compressible than void 0.
+  var $Symbol = typeof Symbol === "function" ? Symbol : {};
+  var iteratorSymbol = $Symbol.iterator || "@@iterator";
+  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+
+  var inModule = 'object' === "object";
+  var runtime = global.regeneratorRuntime;
+  if (runtime) {
+    if (inModule) {
+      // If regeneratorRuntime is defined globally and we're in a module,
+      // make the exports object identical to regeneratorRuntime.
+      module.exports = runtime;
+    }
+    // Don't bother evaluating the rest of this file if the runtime was
+    // already defined globally.
+    return;
+  }
+
+  // Define the runtime globally (as expected by generated code) as either
+  // module.exports (if we're in a module) or a new, empty object.
+  runtime = global.regeneratorRuntime = inModule ? module.exports : {};
+
+  function wrap(innerFn, outerFn, self, tryLocsList) {
+    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+    var generator = Object.create(protoGenerator.prototype);
+    var context = new Context(tryLocsList || []);
+
+    // The ._invoke method unifies the implementations of the .next,
+    // .throw, and .return methods.
+    generator._invoke = makeInvokeMethod(innerFn, self, context);
+
+    return generator;
+  }
+  runtime.wrap = wrap;
+
+  // Try/catch helper to minimize deoptimizations. Returns a completion
+  // record like context.tryEntries[i].completion. This interface could
+  // have been (and was previously) designed to take a closure to be
+  // invoked without arguments, but in all the cases we care about we
+  // already have an existing method we want to call, so there's no need
+  // to create a new function object. We can even get away with assuming
+  // the method takes exactly one argument, since that happens to be true
+  // in every case, so we don't have to touch the arguments object. The
+  // only additional allocation required is the completion record, which
+  // has a stable shape and so hopefully should be cheap to allocate.
+  function tryCatch(fn, obj, arg) {
+    try {
+      return { type: "normal", arg: fn.call(obj, arg) };
+    } catch (err) {
+      return { type: "throw", arg: err };
+    }
+  }
+
+  var GenStateSuspendedStart = "suspendedStart";
+  var GenStateSuspendedYield = "suspendedYield";
+  var GenStateExecuting = "executing";
+  var GenStateCompleted = "completed";
+
+  // Returning this object from the innerFn has the same effect as
+  // breaking out of the dispatch switch statement.
+  var ContinueSentinel = {};
+
+  // Dummy constructor functions that we use as the .constructor and
+  // .constructor.prototype properties for functions that return Generator
+  // objects. For full spec compliance, you may wish to configure your
+  // minifier not to mangle the names of these two functions.
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+
+  // This is a polyfill for %IteratorPrototype% for environments that
+  // don't natively support it.
+  var IteratorPrototype = {};
+  IteratorPrototype[iteratorSymbol] = function () {
+    return this;
+  };
+
+  var getProto = Object.getPrototypeOf;
+  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+  if (NativeIteratorPrototype &&
+      NativeIteratorPrototype !== Op &&
+      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
+    // This environment has a native %IteratorPrototype%; use it instead
+    // of the polyfill.
+    IteratorPrototype = NativeIteratorPrototype;
+  }
+
+  var Gp = GeneratorFunctionPrototype.prototype =
+    Generator.prototype = Object.create(IteratorPrototype);
+  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
+  GeneratorFunctionPrototype.constructor = GeneratorFunction;
+  GeneratorFunctionPrototype[toStringTagSymbol] =
+    GeneratorFunction.displayName = "GeneratorFunction";
+
+  // Helper for defining the .next, .throw, and .return methods of the
+  // Iterator interface in terms of a single ._invoke method.
+  function defineIteratorMethods(prototype) {
+    ["next", "throw", "return"].forEach(function(method) {
+      prototype[method] = function(arg) {
+        return this._invoke(method, arg);
+      };
+    });
+  }
+
+  runtime.isGeneratorFunction = function(genFun) {
+    var ctor = typeof genFun === "function" && genFun.constructor;
+    return ctor
+      ? ctor === GeneratorFunction ||
+        // For the native GeneratorFunction constructor, the best we can
+        // do is to check its .name property.
+        (ctor.displayName || ctor.name) === "GeneratorFunction"
+      : false;
+  };
+
+  runtime.mark = function(genFun) {
+    if (Object.setPrototypeOf) {
+      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
+    } else {
+      genFun.__proto__ = GeneratorFunctionPrototype;
+      if (!(toStringTagSymbol in genFun)) {
+        genFun[toStringTagSymbol] = "GeneratorFunction";
+      }
+    }
+    genFun.prototype = Object.create(Gp);
+    return genFun;
+  };
+
+  // Within the body of any async function, `await x` is transformed to
+  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
+  // `hasOwn.call(value, "__await")` to determine if the yielded value is
+  // meant to be awaited.
+  runtime.awrap = function(arg) {
+    return { __await: arg };
+  };
+
+  function AsyncIterator(generator) {
+    function invoke(method, arg, resolve, reject) {
+      var record = tryCatch(generator[method], generator, arg);
+      if (record.type === "throw") {
+        reject(record.arg);
+      } else {
+        var result = record.arg;
+        var value = result.value;
+        if (value &&
+            typeof value === "object" &&
+            hasOwn.call(value, "__await")) {
+          return Promise.resolve(value.__await).then(function(value) {
+            invoke("next", value, resolve, reject);
+          }, function(err) {
+            invoke("throw", err, resolve, reject);
+          });
+        }
+
+        return Promise.resolve(value).then(function(unwrapped) {
+          // When a yielded Promise is resolved, its final value becomes
+          // the .value of the Promise<{value,done}> result for the
+          // current iteration. If the Promise is rejected, however, the
+          // result for this iteration will be rejected with the same
+          // reason. Note that rejections of yielded Promises are not
+          // thrown back into the generator function, as is the case
+          // when an awaited Promise is rejected. This difference in
+          // behavior between yield and await is important, because it
+          // allows the consumer to decide what to do with the yielded
+          // rejection (swallow it and continue, manually .throw it back
+          // into the generator, abandon iteration, whatever). With
+          // await, by contrast, there is no opportunity to examine the
+          // rejection reason outside the generator function, so the
+          // only option is to throw it from the await expression, and
+          // let the generator function handle the exception.
+          result.value = unwrapped;
+          resolve(result);
+        }, reject);
+      }
+    }
+
+    if (typeof process === "object" && process.domain) {
+      invoke = process.domain.bind(invoke);
+    }
+
+    var previousPromise;
+
+    function enqueue(method, arg) {
+      function callInvokeWithMethodAndArg() {
+        return new Promise(function(resolve, reject) {
+          invoke(method, arg, resolve, reject);
+        });
+      }
+
+      return previousPromise =
+        // If enqueue has been called before, then we want to wait until
+        // all previous Promises have been resolved before calling invoke,
+        // so that results are always delivered in the correct order. If
+        // enqueue has not been called before, then it is important to
+        // call invoke immediately, without waiting on a callback to fire,
+        // so that the async generator function has the opportunity to do
+        // any necessary setup in a predictable way. This predictability
+        // is why the Promise constructor synchronously invokes its
+        // executor callback, and why async functions synchronously
+        // execute code before the first await. Since we implement simple
+        // async functions in terms of async generators, it is especially
+        // important to get this right, even though it requires care.
+        previousPromise ? previousPromise.then(
+          callInvokeWithMethodAndArg,
+          // Avoid propagating failures to Promises returned by later
+          // invocations of the iterator.
+          callInvokeWithMethodAndArg
+        ) : callInvokeWithMethodAndArg();
+    }
+
+    // Define the unified helper method that is used to implement .next,
+    // .throw, and .return (see defineIteratorMethods).
+    this._invoke = enqueue;
+  }
+
+  defineIteratorMethods(AsyncIterator.prototype);
+  runtime.AsyncIterator = AsyncIterator;
+
+  // Note that simple async functions are implemented on top of
+  // AsyncIterator objects; they just return a Promise for the value of
+  // the final result produced by the iterator.
+  runtime.async = function(innerFn, outerFn, self, tryLocsList) {
+    var iter = new AsyncIterator(
+      wrap(innerFn, outerFn, self, tryLocsList)
+    );
+
+    return runtime.isGeneratorFunction(outerFn)
+      ? iter // If outerFn is a generator, return the full iterator.
+      : iter.next().then(function(result) {
+          return result.done ? result.value : iter.next();
+        });
+  };
+
+  function makeInvokeMethod(innerFn, self, context) {
+    var state = GenStateSuspendedStart;
+
+    return function invoke(method, arg) {
+      if (state === GenStateExecuting) {
+        throw new Error("Generator is already running");
+      }
+
+      if (state === GenStateCompleted) {
+        if (method === "throw") {
+          throw arg;
+        }
+
+        // Be forgiving, per 25.3.3.3.3 of the spec:
+        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
+        return doneResult();
+      }
+
+      context.method = method;
+      context.arg = arg;
+
+      while (true) {
+        var delegate = context.delegate;
+        if (delegate) {
+          var delegateResult = maybeInvokeDelegate(delegate, context);
+          if (delegateResult) {
+            if (delegateResult === ContinueSentinel) continue;
+            return delegateResult;
+          }
+        }
+
+        if (context.method === "next") {
+          // Setting context._sent for legacy support of Babel's
+          // function.sent implementation.
+          context.sent = context._sent = context.arg;
+
+        } else if (context.method === "throw") {
+          if (state === GenStateSuspendedStart) {
+            state = GenStateCompleted;
+            throw context.arg;
+          }
+
+          context.dispatchException(context.arg);
+
+        } else if (context.method === "return") {
+          context.abrupt("return", context.arg);
+        }
+
+        state = GenStateExecuting;
+
+        var record = tryCatch(innerFn, self, context);
+        if (record.type === "normal") {
+          // If an exception is thrown from innerFn, we leave state ===
+          // GenStateExecuting and loop back for another invocation.
+          state = context.done
+            ? GenStateCompleted
+            : GenStateSuspendedYield;
+
+          if (record.arg === ContinueSentinel) {
+            continue;
+          }
+
+          return {
+            value: record.arg,
+            done: context.done
+          };
+
+        } else if (record.type === "throw") {
+          state = GenStateCompleted;
+          // Dispatch the exception by looping back around to the
+          // context.dispatchException(context.arg) call above.
+          context.method = "throw";
+          context.arg = record.arg;
+        }
+      }
+    };
+  }
+
+  // Call delegate.iterator[context.method](context.arg) and handle the
+  // result, either by returning a { value, done } result from the
+  // delegate iterator, or by modifying context.method and context.arg,
+  // setting context.delegate to null, and returning the ContinueSentinel.
+  function maybeInvokeDelegate(delegate, context) {
+    var method = delegate.iterator[context.method];
+    if (method === undefined) {
+      // A .throw or .return when the delegate iterator has no .throw
+      // method always terminates the yield* loop.
+      context.delegate = null;
+
+      if (context.method === "throw") {
+        if (delegate.iterator.return) {
+          // If the delegate iterator has a return method, give it a
+          // chance to clean up.
+          context.method = "return";
+          context.arg = undefined;
+          maybeInvokeDelegate(delegate, context);
+
+          if (context.method === "throw") {
+            // If maybeInvokeDelegate(context) changed context.method from
+            // "return" to "throw", let that override the TypeError below.
+            return ContinueSentinel;
+          }
+        }
+
+        context.method = "throw";
+        context.arg = new TypeError(
+          "The iterator does not provide a 'throw' method");
+      }
+
+      return ContinueSentinel;
+    }
+
+    var record = tryCatch(method, delegate.iterator, context.arg);
+
+    if (record.type === "throw") {
+      context.method = "throw";
+      context.arg = record.arg;
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    var info = record.arg;
+
+    if (! info) {
+      context.method = "throw";
+      context.arg = new TypeError("iterator result is not an object");
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    if (info.done) {
+      // Assign the result of the finished delegate to the temporary
+      // variable specified by delegate.resultName (see delegateYield).
+      context[delegate.resultName] = info.value;
+
+      // Resume execution at the desired location (see delegateYield).
+      context.next = delegate.nextLoc;
+
+      // If context.method was "throw" but the delegate handled the
+      // exception, let the outer generator proceed normally. If
+      // context.method was "next", forget context.arg since it has been
+      // "consumed" by the delegate iterator. If context.method was
+      // "return", allow the original .return call to continue in the
+      // outer generator.
+      if (context.method !== "return") {
+        context.method = "next";
+        context.arg = undefined;
+      }
+
+    } else {
+      // Re-yield the result returned by the delegate method.
+      return info;
+    }
+
+    // The delegate iterator is finished, so forget it and continue with
+    // the outer generator.
+    context.delegate = null;
+    return ContinueSentinel;
+  }
+
+  // Define Generator.prototype.{next,throw,return} in terms of the
+  // unified ._invoke helper method.
+  defineIteratorMethods(Gp);
+
+  Gp[toStringTagSymbol] = "Generator";
+
+  Gp.toString = function() {
+    return "[object Generator]";
+  };
+
+  function pushTryEntry(locs) {
+    var entry = { tryLoc: locs[0] };
+
+    if (1 in locs) {
+      entry.catchLoc = locs[1];
+    }
+
+    if (2 in locs) {
+      entry.finallyLoc = locs[2];
+      entry.afterLoc = locs[3];
+    }
+
+    this.tryEntries.push(entry);
+  }
+
+  function resetTryEntry(entry) {
+    var record = entry.completion || {};
+    record.type = "normal";
+    delete record.arg;
+    entry.completion = record;
+  }
+
+  function Context(tryLocsList) {
+    // The root entry object (effectively a try statement without a catch
+    // or a finally block) gives us a place to store values thrown from
+    // locations where there is no enclosing try statement.
+    this.tryEntries = [{ tryLoc: "root" }];
+    tryLocsList.forEach(pushTryEntry, this);
+    this.reset(true);
+  }
+
+  runtime.keys = function(object) {
+    var keys = [];
+    for (var key in object) {
+      keys.push(key);
+    }
+    keys.reverse();
+
+    // Rather than returning an object with a next method, we keep
+    // things simple and return the next function itself.
+    return function next() {
+      while (keys.length) {
+        var key = keys.pop();
+        if (key in object) {
+          next.value = key;
+          next.done = false;
+          return next;
+        }
+      }
+
+      // To avoid creating an additional object, we just hang the .value
+      // and .done properties off the next function object itself. This
+      // also ensures that the minifier will not anonymize the function.
+      next.done = true;
+      return next;
+    };
+  };
+
+  function values(iterable) {
+    if (iterable) {
+      var iteratorMethod = iterable[iteratorSymbol];
+      if (iteratorMethod) {
+        return iteratorMethod.call(iterable);
+      }
+
+      if (typeof iterable.next === "function") {
+        return iterable;
+      }
+
+      if (!isNaN(iterable.length)) {
+        var i = -1, next = function next() {
+          while (++i < iterable.length) {
+            if (hasOwn.call(iterable, i)) {
+              next.value = iterable[i];
+              next.done = false;
+              return next;
+            }
+          }
+
+          next.value = undefined;
+          next.done = true;
+
+          return next;
+        };
+
+        return next.next = next;
+      }
+    }
+
+    // Return an iterator with no values.
+    return { next: doneResult };
+  }
+  runtime.values = values;
+
+  function doneResult() {
+    return { value: undefined, done: true };
+  }
+
+  Context.prototype = {
+    constructor: Context,
+
+    reset: function(skipTempReset) {
+      this.prev = 0;
+      this.next = 0;
+      // Resetting context._sent for legacy support of Babel's
+      // function.sent implementation.
+      this.sent = this._sent = undefined;
+      this.done = false;
+      this.delegate = null;
+
+      this.method = "next";
+      this.arg = undefined;
+
+      this.tryEntries.forEach(resetTryEntry);
+
+      if (!skipTempReset) {
+        for (var name in this) {
+          // Not sure about the optimal order of these conditions:
+          if (name.charAt(0) === "t" &&
+              hasOwn.call(this, name) &&
+              !isNaN(+name.slice(1))) {
+            this[name] = undefined;
+          }
+        }
+      }
+    },
+
+    stop: function() {
+      this.done = true;
+
+      var rootEntry = this.tryEntries[0];
+      var rootRecord = rootEntry.completion;
+      if (rootRecord.type === "throw") {
+        throw rootRecord.arg;
+      }
+
+      return this.rval;
+    },
+
+    dispatchException: function(exception) {
+      if (this.done) {
+        throw exception;
+      }
+
+      var context = this;
+      function handle(loc, caught) {
+        record.type = "throw";
+        record.arg = exception;
+        context.next = loc;
+
+        if (caught) {
+          // If the dispatched exception was caught by a catch block,
+          // then let that catch block handle the exception normally.
+          context.method = "next";
+          context.arg = undefined;
+        }
+
+        return !! caught;
+      }
+
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        var record = entry.completion;
+
+        if (entry.tryLoc === "root") {
+          // Exception thrown outside of any try block that could handle
+          // it, so set the completion value of the entire function to
+          // throw the exception.
+          return handle("end");
+        }
+
+        if (entry.tryLoc <= this.prev) {
+          var hasCatch = hasOwn.call(entry, "catchLoc");
+          var hasFinally = hasOwn.call(entry, "finallyLoc");
+
+          if (hasCatch && hasFinally) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            } else if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else if (hasCatch) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            }
+
+          } else if (hasFinally) {
+            if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else {
+            throw new Error("try statement without catch or finally");
+          }
+        }
+      }
+    },
+
+    abrupt: function(type, arg) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc <= this.prev &&
+            hasOwn.call(entry, "finallyLoc") &&
+            this.prev < entry.finallyLoc) {
+          var finallyEntry = entry;
+          break;
+        }
+      }
+
+      if (finallyEntry &&
+          (type === "break" ||
+           type === "continue") &&
+          finallyEntry.tryLoc <= arg &&
+          arg <= finallyEntry.finallyLoc) {
+        // Ignore the finally entry if control is not jumping to a
+        // location outside the try/catch block.
+        finallyEntry = null;
+      }
+
+      var record = finallyEntry ? finallyEntry.completion : {};
+      record.type = type;
+      record.arg = arg;
+
+      if (finallyEntry) {
+        this.method = "next";
+        this.next = finallyEntry.finallyLoc;
+        return ContinueSentinel;
+      }
+
+      return this.complete(record);
+    },
+
+    complete: function(record, afterLoc) {
+      if (record.type === "throw") {
+        throw record.arg;
+      }
+
+      if (record.type === "break" ||
+          record.type === "continue") {
+        this.next = record.arg;
+      } else if (record.type === "return") {
+        this.rval = this.arg = record.arg;
+        this.method = "return";
+        this.next = "end";
+      } else if (record.type === "normal" && afterLoc) {
+        this.next = afterLoc;
+      }
+
+      return ContinueSentinel;
+    },
+
+    finish: function(finallyLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.finallyLoc === finallyLoc) {
+          this.complete(entry.completion, entry.afterLoc);
+          resetTryEntry(entry);
+          return ContinueSentinel;
+        }
+      }
+    },
+
+    "catch": function(tryLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc === tryLoc) {
+          var record = entry.completion;
+          if (record.type === "throw") {
+            var thrown = record.arg;
+            resetTryEntry(entry);
+          }
+          return thrown;
+        }
+      }
+
+      // The context.catch method must only be called with a location
+      // argument that corresponds to a known catch block.
+      throw new Error("illegal catch attempt");
+    },
+
+    delegateYield: function(iterable, resultName, nextLoc) {
+      this.delegate = {
+        iterator: values(iterable),
+        resultName: resultName,
+        nextLoc: nextLoc
+      };
+
+      if (this.method === "next") {
+        // Deliberately forget the last sent value so that we don't
+        // accidentally pass it on to the delegate.
+        this.arg = undefined;
+      }
+
+      return ContinueSentinel;
+    }
+  };
+})(
+  // Among the various tricks for obtaining a reference to the global
+  // object, this seems to be the most reliable technique that does not
+  // use indirect eval (which violates Content Security Policy).
+  typeof commonjsGlobal === "object" ? commonjsGlobal :
+  typeof window === "object" ? window :
+  typeof self === "object" ? self : commonjsGlobal
+);
+});
+
+// This method of obtaining a reference to the global object needs to be
+// kept identical to the way it is obtained in runtime.js
+var g =
+  typeof commonjsGlobal === "object" ? commonjsGlobal :
+  typeof window === "object" ? window :
+  typeof self === "object" ? self : commonjsGlobal;
+
+// Use `getOwnPropertyNames` because not all browsers support calling
+// `hasOwnProperty` on the global `self` object in a worker. See #183.
+var hadRuntime = g.regeneratorRuntime &&
+  Object.getOwnPropertyNames(g).indexOf("regeneratorRuntime") >= 0;
+
+// Save the old regeneratorRuntime in case it needs to be restored later.
+var oldRuntime = hadRuntime && g.regeneratorRuntime;
+
+// Force reevalutation of runtime.js.
+g.regeneratorRuntime = undefined;
+
+var runtimeModule = runtime;
+
+if (hadRuntime) {
+  // Restore the original runtime.
+  g.regeneratorRuntime = oldRuntime;
+} else {
+  // Remove the global property added by runtime.js.
+  try {
+    delete g.regeneratorRuntime;
+  } catch(e) {
+    g.regeneratorRuntime = undefined;
+  }
+}
+
+var index = runtimeModule;
+
+// 7.1.4 ToInteger
+var ceil  = Math.ceil;
+var floor = Math.floor;
+var _toInteger = function(it){
+  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
+};
+
+// 7.2.1 RequireObjectCoercible(argument)
+var _defined = function(it){
+  if(it == undefined)throw TypeError("Can't call method on  " + it);
+  return it;
+};
+
+// true  -> String#at
+// false -> String#codePointAt
+var _stringAt = function(TO_STRING){
+  return function(that, pos){
+    var s = String(_defined(that))
+      , i = _toInteger(pos)
+      , l = s.length
+      , a, b;
+    if(i < 0 || i >= l)return TO_STRING ? '' : undefined;
+    a = s.charCodeAt(i);
+    return a < 0xd800 || a > 0xdbff || i + 1 === l || (b = s.charCodeAt(i + 1)) < 0xdc00 || b > 0xdfff
+      ? TO_STRING ? s.charAt(i) : a
+      : TO_STRING ? s.slice(i, i + 2) : (a - 0xd800 << 10) + (b - 0xdc00) + 0x10000;
+  };
+};
+
+var _library = true;
+
+var _global = createCommonjsModule(function (module) {
+// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+var global = module.exports = typeof window != 'undefined' && window.Math == Math
+  ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
+if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
+});
+
+var _core = createCommonjsModule(function (module) {
+var core = module.exports = {version: '2.4.0'};
+if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
+});
+
+var _aFunction = function(it){
+  if(typeof it != 'function')throw TypeError(it + ' is not a function!');
+  return it;
+};
+
+// optional / simple context binding
+
+var _ctx = function(fn, that, length){
+  _aFunction(fn);
+  if(that === undefined)return fn;
+  switch(length){
+    case 1: return function(a){
+      return fn.call(that, a);
+    };
+    case 2: return function(a, b){
+      return fn.call(that, a, b);
+    };
+    case 3: return function(a, b, c){
+      return fn.call(that, a, b, c);
+    };
+  }
+  return function(/* ...args */){
+    return fn.apply(that, arguments);
+  };
+};
+
+var _isObject = function(it){
+  return typeof it === 'object' ? it !== null : typeof it === 'function';
+};
+
+var _anObject = function(it){
+  if(!_isObject(it))throw TypeError(it + ' is not an object!');
+  return it;
+};
+
+var _fails = function(exec){
+  try {
+    return !!exec();
+  } catch(e){
+    return true;
+  }
+};
+
+// Thank's IE8 for his funny defineProperty
+var _descriptors = !_fails(function(){
+  return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
+});
+
+var document$1 = _global.document;
+var is = _isObject(document$1) && _isObject(document$1.createElement);
+var _domCreate = function(it){
+  return is ? document$1.createElement(it) : {};
+};
+
+var _ie8DomDefine = !_descriptors && !_fails(function(){
+  return Object.defineProperty(_domCreate('div'), 'a', {get: function(){ return 7; }}).a != 7;
+});
+
+// 7.1.1 ToPrimitive(input [, PreferredType])
+
+// instead of the ES6 spec version, we didn't implement @@toPrimitive case
+// and the second argument - flag - preferred type is a string
+var _toPrimitive = function(it, S){
+  if(!_isObject(it))return it;
+  var fn, val;
+  if(S && typeof (fn = it.toString) == 'function' && !_isObject(val = fn.call(it)))return val;
+  if(typeof (fn = it.valueOf) == 'function' && !_isObject(val = fn.call(it)))return val;
+  if(!S && typeof (fn = it.toString) == 'function' && !_isObject(val = fn.call(it)))return val;
+  throw TypeError("Can't convert object to primitive value");
+};
+
+var dP             = Object.defineProperty;
+
+var f = _descriptors ? Object.defineProperty : function defineProperty(O, P, Attributes){
+  _anObject(O);
+  P = _toPrimitive(P, true);
+  _anObject(Attributes);
+  if(_ie8DomDefine)try {
+    return dP(O, P, Attributes);
+  } catch(e){ /* empty */ }
+  if('get' in Attributes || 'set' in Attributes)throw TypeError('Accessors not supported!');
+  if('value' in Attributes)O[P] = Attributes.value;
+  return O;
+};
+
+var _objectDp = {
+	f: f
+};
+
+var _propertyDesc = function(bitmap, value){
+  return {
+    enumerable  : !(bitmap & 1),
+    configurable: !(bitmap & 2),
+    writable    : !(bitmap & 4),
+    value       : value
+  };
+};
+
+var _hide = _descriptors ? function(object, key, value){
+  return _objectDp.f(object, key, _propertyDesc(1, value));
+} : function(object, key, value){
+  object[key] = value;
+  return object;
+};
+
+var PROTOTYPE = 'prototype';
+
+var $export = function(type, name, source){
+  var IS_FORCED = type & $export.F
+    , IS_GLOBAL = type & $export.G
+    , IS_STATIC = type & $export.S
+    , IS_PROTO  = type & $export.P
+    , IS_BIND   = type & $export.B
+    , IS_WRAP   = type & $export.W
+    , exports   = IS_GLOBAL ? _core : _core[name] || (_core[name] = {})
+    , expProto  = exports[PROTOTYPE]
+    , target    = IS_GLOBAL ? _global : IS_STATIC ? _global[name] : (_global[name] || {})[PROTOTYPE]
+    , key, own, out;
+  if(IS_GLOBAL)source = name;
+  for(key in source){
+    // contains in native
+    own = !IS_FORCED && target && target[key] !== undefined;
+    if(own && key in exports)continue;
+    // export native or passed
+    out = own ? target[key] : source[key];
+    // prevent global pollution for namespaces
+    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
+    // bind timers to global for call from export context
+    : IS_BIND && own ? _ctx(out, _global)
+    // wrap global constructors for prevent change them in library
+    : IS_WRAP && target[key] == out ? (function(C){
+      var F = function(a, b, c){
+        if(this instanceof C){
+          switch(arguments.length){
+            case 0: return new C;
+            case 1: return new C(a);
+            case 2: return new C(a, b);
+          } return new C(a, b, c);
+        } return C.apply(this, arguments);
+      };
+      F[PROTOTYPE] = C[PROTOTYPE];
+      return F;
+    // make static versions for prototype methods
+    })(out) : IS_PROTO && typeof out == 'function' ? _ctx(Function.call, out) : out;
+    // export proto methods to core.%CONSTRUCTOR%.methods.%NAME%
+    if(IS_PROTO){
+      (exports.virtual || (exports.virtual = {}))[key] = out;
+      // export proto methods to core.%CONSTRUCTOR%.prototype.%NAME%
+      if(type & $export.R && expProto && !expProto[key])_hide(expProto, key, out);
+    }
+  }
+};
+// type bitmap
+$export.F = 1;   // forced
+$export.G = 2;   // global
+$export.S = 4;   // static
+$export.P = 8;   // proto
+$export.B = 16;  // bind
+$export.W = 32;  // wrap
+$export.U = 64;  // safe
+$export.R = 128; // real proto method for `library` 
+var _export = $export;
+
+var _redefine = _hide;
+
+var hasOwnProperty = {}.hasOwnProperty;
+var _has = function(it, key){
+  return hasOwnProperty.call(it, key);
+};
+
+var _iterators = {};
+
+var toString = {}.toString;
+
+var _cof = function(it){
+  return toString.call(it).slice(8, -1);
+};
+
+// fallback for non-array-like ES3 and non-enumerable old V8 strings
+
+var _iobject = Object('z').propertyIsEnumerable(0) ? Object : function(it){
+  return _cof(it) == 'String' ? it.split('') : Object(it);
+};
+
+// to indexed object, toObject with fallback for non-array-like ES3 strings
+
+var _toIobject = function(it){
+  return _iobject(_defined(it));
+};
+
+// 7.1.15 ToLength
+var min       = Math.min;
+var _toLength = function(it){
+  return it > 0 ? min(_toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
+};
+
+var max       = Math.max;
+var min$1       = Math.min;
+var _toIndex = function(index, length){
+  index = _toInteger(index);
+  return index < 0 ? max(index + length, 0) : min$1(index, length);
+};
+
+// false -> Array#indexOf
+// true  -> Array#includes
+
+var _arrayIncludes = function(IS_INCLUDES){
+  return function($this, el, fromIndex){
+    var O      = _toIobject($this)
+      , length = _toLength(O.length)
+      , index  = _toIndex(fromIndex, length)
+      , value;
+    // Array#includes uses SameValueZero equality algorithm
+    if(IS_INCLUDES && el != el)while(length > index){
+      value = O[index++];
+      if(value != value)return true;
+    // Array#toIndex ignores holes, Array#includes - not
+    } else for(;length > index; index++)if(IS_INCLUDES || index in O){
+      if(O[index] === el)return IS_INCLUDES || index || 0;
+    } return !IS_INCLUDES && -1;
+  };
+};
+
+var SHARED = '__core-js_shared__';
+var store  = _global[SHARED] || (_global[SHARED] = {});
+var _shared = function(key){
+  return store[key] || (store[key] = {});
+};
+
+var id = 0;
+var px = Math.random();
+var _uid = function(key){
+  return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
+};
+
+var shared = _shared('keys');
+var _sharedKey = function(key){
+  return shared[key] || (shared[key] = _uid(key));
+};
+
+var arrayIndexOf = _arrayIncludes(false);
+var IE_PROTO$1     = _sharedKey('IE_PROTO');
+
+var _objectKeysInternal = function(object, names){
+  var O      = _toIobject(object)
+    , i      = 0
+    , result = []
+    , key;
+  for(key in O)if(key != IE_PROTO$1)_has(O, key) && result.push(key);
+  // Don't enum bug & hidden keys
+  while(names.length > i)if(_has(O, key = names[i++])){
+    ~arrayIndexOf(result, key) || result.push(key);
+  }
+  return result;
+};
+
+// IE 8- don't enum bug keys
+var _enumBugKeys = (
+  'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
+).split(',');
+
+// 19.1.2.14 / 15.2.3.14 Object.keys(O)
+
+
+var _objectKeys = Object.keys || function keys(O){
+  return _objectKeysInternal(O, _enumBugKeys);
+};
+
+var _objectDps = _descriptors ? Object.defineProperties : function defineProperties(O, Properties){
+  _anObject(O);
+  var keys   = _objectKeys(Properties)
+    , length = keys.length
+    , i = 0
+    , P;
+  while(length > i)_objectDp.f(O, P = keys[i++], Properties[P]);
+  return O;
+};
+
+var _html = _global.document && document.documentElement;
+
+// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
+var IE_PROTO    = _sharedKey('IE_PROTO');
+var Empty       = function(){ /* empty */ };
+var PROTOTYPE$1   = 'prototype';
+
+// Create object with fake `null` prototype: use iframe Object with cleared prototype
+var createDict = function(){
+  // Thrash, waste and sodomy: IE GC bug
+  var iframe = _domCreate('iframe')
+    , i      = _enumBugKeys.length
+    , lt     = '<'
+    , gt     = '>'
+    , iframeDocument;
+  iframe.style.display = 'none';
+  _html.appendChild(iframe);
+  iframe.src = 'javascript:'; // eslint-disable-line no-script-url
+  // createDict = iframe.contentWindow.Object;
+  // html.removeChild(iframe);
+  iframeDocument = iframe.contentWindow.document;
+  iframeDocument.open();
+  iframeDocument.write(lt + 'script' + gt + 'document.F=Object' + lt + '/script' + gt);
+  iframeDocument.close();
+  createDict = iframeDocument.F;
+  while(i--)delete createDict[PROTOTYPE$1][_enumBugKeys[i]];
+  return createDict();
+};
+
+var _objectCreate = Object.create || function create(O, Properties){
+  var result;
+  if(O !== null){
+    Empty[PROTOTYPE$1] = _anObject(O);
+    result = new Empty;
+    Empty[PROTOTYPE$1] = null;
+    // add "__proto__" for Object.getPrototypeOf polyfill
+    result[IE_PROTO] = O;
+  } else result = createDict();
+  return Properties === undefined ? result : _objectDps(result, Properties);
+};
+
+var _wks = createCommonjsModule(function (module) {
+var store      = _shared('wks')
+  , Symbol     = _global.Symbol
+  , USE_SYMBOL = typeof Symbol == 'function';
+
+var $exports = module.exports = function(name){
+  return store[name] || (store[name] =
+    USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : _uid)('Symbol.' + name));
+};
+
+$exports.store = store;
+});
+
+var def = _objectDp.f;
+var TAG = _wks('toStringTag');
+
+var _setToStringTag = function(it, tag, stat){
+  if(it && !_has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
+};
+
+var IteratorPrototype = {};
+
+// 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
+_hide(IteratorPrototype, _wks('iterator'), function(){ return this; });
+
+var _iterCreate = function(Constructor, NAME, next){
+  Constructor.prototype = _objectCreate(IteratorPrototype, {next: _propertyDesc(1, next)});
+  _setToStringTag(Constructor, NAME + ' Iterator');
+};
+
+// 7.1.13 ToObject(argument)
+
+var _toObject = function(it){
+  return Object(_defined(it));
+};
+
+// 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
+var IE_PROTO$2    = _sharedKey('IE_PROTO');
+var ObjectProto = Object.prototype;
+
+var _objectGpo = Object.getPrototypeOf || function(O){
+  O = _toObject(O);
+  if(_has(O, IE_PROTO$2))return O[IE_PROTO$2];
+  if(typeof O.constructor == 'function' && O instanceof O.constructor){
+    return O.constructor.prototype;
+  } return O instanceof Object ? ObjectProto : null;
+};
+
+var ITERATOR       = _wks('iterator');
+var BUGGY          = !([].keys && 'next' in [].keys());
+var FF_ITERATOR    = '@@iterator';
+var KEYS           = 'keys';
+var VALUES         = 'values';
+
+var returnThis = function(){ return this; };
+
+var _iterDefine = function(Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED){
+  _iterCreate(Constructor, NAME, next);
+  var getMethod = function(kind){
+    if(!BUGGY && kind in proto)return proto[kind];
+    switch(kind){
+      case KEYS: return function keys(){ return new Constructor(this, kind); };
+      case VALUES: return function values(){ return new Constructor(this, kind); };
+    } return function entries(){ return new Constructor(this, kind); };
+  };
+  var TAG        = NAME + ' Iterator'
+    , DEF_VALUES = DEFAULT == VALUES
+    , VALUES_BUG = false
+    , proto      = Base.prototype
+    , $native    = proto[ITERATOR] || proto[FF_ITERATOR] || DEFAULT && proto[DEFAULT]
+    , $default   = $native || getMethod(DEFAULT)
+    , $entries   = DEFAULT ? !DEF_VALUES ? $default : getMethod('entries') : undefined
+    , $anyNative = NAME == 'Array' ? proto.entries || $native : $native
+    , methods, key, IteratorPrototype;
+  // Fix native
+  if($anyNative){
+    IteratorPrototype = _objectGpo($anyNative.call(new Base));
+    if(IteratorPrototype !== Object.prototype){
+      // Set @@toStringTag to native iterators
+      _setToStringTag(IteratorPrototype, TAG, true);
+      // fix for some old engines
+      if(!_library && !_has(IteratorPrototype, ITERATOR))_hide(IteratorPrototype, ITERATOR, returnThis);
+    }
+  }
+  // fix Array#{values, @@iterator}.name in V8 / FF
+  if(DEF_VALUES && $native && $native.name !== VALUES){
+    VALUES_BUG = true;
+    $default = function values(){ return $native.call(this); };
+  }
+  // Define iterator
+  if((!_library || FORCED) && (BUGGY || VALUES_BUG || !proto[ITERATOR])){
+    _hide(proto, ITERATOR, $default);
+  }
+  // Plug for library
+  _iterators[NAME] = $default;
+  _iterators[TAG]  = returnThis;
+  if(DEFAULT){
+    methods = {
+      values:  DEF_VALUES ? $default : getMethod(VALUES),
+      keys:    IS_SET     ? $default : getMethod(KEYS),
+      entries: $entries
+    };
+    if(FORCED)for(key in methods){
+      if(!(key in proto))_redefine(proto, key, methods[key]);
+    } else _export(_export.P + _export.F * (BUGGY || VALUES_BUG), NAME, methods);
+  }
+  return methods;
+};
+
+var $at  = _stringAt(true);
+
+// 21.1.3.27 String.prototype[@@iterator]()
+_iterDefine(String, 'String', function(iterated){
+  this._t = String(iterated); // target
+  this._i = 0;                // next index
+// 21.1.5.2.1 %StringIteratorPrototype%.next()
+}, function(){
+  var O     = this._t
+    , index = this._i
+    , point;
+  if(index >= O.length)return {value: undefined, done: true};
+  point = $at(O, index);
+  this._i += point.length;
+  return {value: point, done: false};
+});
+
+var _addToUnscopables = function(){ /* empty */ };
+
+var _iterStep = function(done, value){
+  return {value: value, done: !!done};
+};
+
+// 22.1.3.4 Array.prototype.entries()
+// 22.1.3.13 Array.prototype.keys()
+// 22.1.3.29 Array.prototype.values()
+// 22.1.3.30 Array.prototype[@@iterator]()
+var es6_array_iterator = _iterDefine(Array, 'Array', function(iterated, kind){
+  this._t = _toIobject(iterated); // target
+  this._i = 0;                   // next index
+  this._k = kind;                // kind
+// 22.1.5.2.1 %ArrayIteratorPrototype%.next()
+}, function(){
+  var O     = this._t
+    , kind  = this._k
+    , index = this._i++;
+  if(!O || index >= O.length){
+    this._t = undefined;
+    return _iterStep(1);
+  }
+  if(kind == 'keys'  )return _iterStep(0, index);
+  if(kind == 'values')return _iterStep(0, O[index]);
+  return _iterStep(0, [index, O[index]]);
+}, 'values');
+
+// argumentsList[@@iterator] is %ArrayProto_values% (9.4.4.6, 9.4.4.7)
+_iterators.Arguments = _iterators.Array;
+
+_addToUnscopables('keys');
+_addToUnscopables('values');
+_addToUnscopables('entries');
+
+var TO_STRING_TAG = _wks('toStringTag');
+
+for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList', 'CSSRuleList'], i = 0; i < 5; i++){
+  var NAME       = collections[i]
+    , Collection = _global[NAME]
+    , proto      = Collection && Collection.prototype;
+  if(proto && !proto[TO_STRING_TAG])_hide(proto, TO_STRING_TAG, NAME);
+  _iterators[NAME] = _iterators.Array;
+}
+
+// getting tag from 19.1.3.6 Object.prototype.toString()
+var TAG$1 = _wks('toStringTag');
+var ARG = _cof(function(){ return arguments; }()) == 'Arguments';
+
+// fallback for IE11 Script Access Denied error
+var tryGet = function(it, key){
+  try {
+    return it[key];
+  } catch(e){ /* empty */ }
+};
+
+var _classof = function(it){
+  var O, T, B;
+  return it === undefined ? 'Undefined' : it === null ? 'Null'
+    // @@toStringTag case
+    : typeof (T = tryGet(O = Object(it), TAG$1)) == 'string' ? T
+    // builtinTag case
+    : ARG ? _cof(O)
+    // ES3 arguments fallback
+    : (B = _cof(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : B;
+};
+
+var _anInstance = function(it, Constructor, name, forbiddenField){
+  if(!(it instanceof Constructor) || (forbiddenField !== undefined && forbiddenField in it)){
+    throw TypeError(name + ': incorrect invocation!');
+  } return it;
+};
+
+// call something on iterator step with safe closing on error
+
+var _iterCall = function(iterator, fn, value, entries){
+  try {
+    return entries ? fn(_anObject(value)[0], value[1]) : fn(value);
+  // 7.4.6 IteratorClose(iterator, completion)
+  } catch(e){
+    var ret = iterator['return'];
+    if(ret !== undefined)_anObject(ret.call(iterator));
+    throw e;
+  }
+};
+
+// check on default Array iterator
+var ITERATOR$1   = _wks('iterator');
+var ArrayProto = Array.prototype;
+
+var _isArrayIter = function(it){
+  return it !== undefined && (_iterators.Array === it || ArrayProto[ITERATOR$1] === it);
+};
+
+var ITERATOR$2  = _wks('iterator');
+var core_getIteratorMethod = _core.getIteratorMethod = function(it){
+  if(it != undefined)return it[ITERATOR$2]
+    || it['@@iterator']
+    || _iterators[_classof(it)];
+};
+
+var _forOf = createCommonjsModule(function (module) {
+var BREAK       = {}
+  , RETURN      = {};
+var exports = module.exports = function(iterable, entries, fn, that, ITERATOR){
+  var iterFn = ITERATOR ? function(){ return iterable; } : core_getIteratorMethod(iterable)
+    , f      = _ctx(fn, that, entries ? 2 : 1)
+    , index  = 0
+    , length, step, iterator, result;
+  if(typeof iterFn != 'function')throw TypeError(iterable + ' is not iterable!');
+  // fast case for arrays with default iterator
+  if(_isArrayIter(iterFn))for(length = _toLength(iterable.length); length > index; index++){
+    result = entries ? f(_anObject(step = iterable[index])[0], step[1]) : f(iterable[index]);
+    if(result === BREAK || result === RETURN)return result;
+  } else for(iterator = iterFn.call(iterable); !(step = iterator.next()).done; ){
+    result = _iterCall(iterator, f, step.value, entries);
+    if(result === BREAK || result === RETURN)return result;
+  }
+};
+exports.BREAK  = BREAK;
+exports.RETURN = RETURN;
+});
+
+// 7.3.20 SpeciesConstructor(O, defaultConstructor)
+var SPECIES   = _wks('species');
+var _speciesConstructor = function(O, D){
+  var C = _anObject(O).constructor, S;
+  return C === undefined || (S = _anObject(C)[SPECIES]) == undefined ? D : _aFunction(S);
+};
+
+// fast apply, http://jsperf.lnkit.com/fast-apply/5
+var _invoke = function(fn, args, that){
+  var un = that === undefined;
+  switch(args.length){
+    case 0: return un ? fn()
+                      : fn.call(that);
+    case 1: return un ? fn(args[0])
+                      : fn.call(that, args[0]);
+    case 2: return un ? fn(args[0], args[1])
+                      : fn.call(that, args[0], args[1]);
+    case 3: return un ? fn(args[0], args[1], args[2])
+                      : fn.call(that, args[0], args[1], args[2]);
+    case 4: return un ? fn(args[0], args[1], args[2], args[3])
+                      : fn.call(that, args[0], args[1], args[2], args[3]);
+  } return              fn.apply(that, args);
+};
+
+var process$2            = _global.process;
+var setTask            = _global.setImmediate;
+var clearTask          = _global.clearImmediate;
+var MessageChannel     = _global.MessageChannel;
+var counter            = 0;
+var queue              = {};
+var ONREADYSTATECHANGE = 'onreadystatechange';
+var defer;
+var channel;
+var port;
+var run = function(){
+  var id = +this;
+  if(queue.hasOwnProperty(id)){
+    var fn = queue[id];
+    delete queue[id];
+    fn();
+  }
+};
+var listener = function(event){
+  run.call(event.data);
+};
+// Node.js 0.9+ & IE10+ has setImmediate, otherwise:
+if(!setTask || !clearTask){
+  setTask = function setImmediate(fn){
+    var args = [], i = 1;
+    while(arguments.length > i)args.push(arguments[i++]);
+    queue[++counter] = function(){
+      _invoke(typeof fn == 'function' ? fn : Function(fn), args);
+    };
+    defer(counter);
+    return counter;
+  };
+  clearTask = function clearImmediate(id){
+    delete queue[id];
+  };
+  // Node.js 0.8-
+  if(_cof(process$2) == 'process'){
+    defer = function(id){
+      process$2.nextTick(_ctx(run, id, 1));
+    };
+  // Browsers with MessageChannel, includes WebWorkers
+  } else if(MessageChannel){
+    channel = new MessageChannel;
+    port    = channel.port2;
+    channel.port1.onmessage = listener;
+    defer = _ctx(port.postMessage, port, 1);
+  // Browsers with postMessage, skip WebWorkers
+  // IE8 has postMessage, but it's sync & typeof its postMessage is 'object'
+  } else if(_global.addEventListener && typeof postMessage == 'function' && !_global.importScripts){
+    defer = function(id){
+      _global.postMessage(id + '', '*');
+    };
+    _global.addEventListener('message', listener, false);
+  // IE8-
+  } else if(ONREADYSTATECHANGE in _domCreate('script')){
+    defer = function(id){
+      _html.appendChild(_domCreate('script'))[ONREADYSTATECHANGE] = function(){
+        _html.removeChild(this);
+        run.call(id);
+      };
+    };
+  // Rest old browsers
+  } else {
+    defer = function(id){
+      setTimeout(_ctx(run, id, 1), 0);
+    };
+  }
+}
+var _task = {
+  set:   setTask,
+  clear: clearTask
+};
+
+var macrotask = _task.set;
+var Observer  = _global.MutationObserver || _global.WebKitMutationObserver;
+var process$3   = _global.process;
+var Promise$1   = _global.Promise;
+var isNode$1    = _cof(process$3) == 'process';
+
+var _microtask = function(){
+  var head, last, notify;
+
+  var flush = function(){
+    var parent, fn;
+    if(isNode$1 && (parent = process$3.domain))parent.exit();
+    while(head){
+      fn   = head.fn;
+      head = head.next;
+      try {
+        fn();
+      } catch(e){
+        if(head)notify();
+        else last = undefined;
+        throw e;
+      }
+    } last = undefined;
+    if(parent)parent.enter();
+  };
+
+  // Node.js
+  if(isNode$1){
+    notify = function(){
+      process$3.nextTick(flush);
+    };
+  // browsers with MutationObserver
+  } else if(Observer){
+    var toggle = true
+      , node   = document.createTextNode('');
+    new Observer(flush).observe(node, {characterData: true}); // eslint-disable-line no-new
+    notify = function(){
+      node.data = toggle = !toggle;
+    };
+  // environments with maybe non-completely correct, but existent Promise
+  } else if(Promise$1 && Promise$1.resolve){
+    var promise = Promise$1.resolve();
+    notify = function(){
+      promise.then(flush);
+    };
+  // for other environments - macrotask based on:
+  // - setImmediate
+  // - MessageChannel
+  // - window.postMessag
+  // - onreadystatechange
+  // - setTimeout
+  } else {
+    notify = function(){
+      // strange IE + webpack dev server bug - use .call(global)
+      macrotask.call(_global, flush);
+    };
+  }
+
+  return function(fn){
+    var task = {fn: fn, next: undefined};
+    if(last)last.next = task;
+    if(!head){
+      head = task;
+      notify();
+    } last = task;
+  };
+};
+
+var _redefineAll = function(target, src, safe){
+  for(var key in src){
+    if(safe && target[key])target[key] = src[key];
+    else _hide(target, key, src[key]);
+  } return target;
+};
+
+var SPECIES$1     = _wks('species');
+
+var _setSpecies = function(KEY){
+  var C = typeof _core[KEY] == 'function' ? _core[KEY] : _global[KEY];
+  if(_descriptors && C && !C[SPECIES$1])_objectDp.f(C, SPECIES$1, {
+    configurable: true,
+    get: function(){ return this; }
+  });
+};
+
+var ITERATOR$3     = _wks('iterator');
+var SAFE_CLOSING = false;
+
+try {
+  var riter = [7][ITERATOR$3]();
+  riter['return'] = function(){ SAFE_CLOSING = true; };
+  Array.from(riter, function(){ throw 2; });
+} catch(e){ /* empty */ }
+
+var _iterDetect = function(exec, skipClosing){
+  if(!skipClosing && !SAFE_CLOSING)return false;
+  var safe = false;
+  try {
+    var arr  = [7]
+      , iter = arr[ITERATOR$3]();
+    iter.next = function(){ return {done: safe = true}; };
+    arr[ITERATOR$3] = function(){ return iter; };
+    exec(arr);
+  } catch(e){ /* empty */ }
+  return safe;
+};
+
+var task               = _task.set;
+var microtask          = _microtask();
+var PROMISE            = 'Promise';
+var TypeError$1          = _global.TypeError;
+var process$1            = _global.process;
+var $Promise           = _global[PROMISE];
+var process$1            = _global.process;
+var isNode             = _classof(process$1) == 'process';
+var empty              = function(){ /* empty */ };
+var Internal;
+var GenericPromiseCapability;
+var Wrapper;
+
+var USE_NATIVE = !!function(){
+  try {
+    // correct subclassing with @@species support
+    var promise     = $Promise.resolve(1)
+      , FakePromise = (promise.constructor = {})[_wks('species')] = function(exec){ exec(empty, empty); };
+    // unhandled rejections tracking support, NodeJS Promise without it fails @@species test
+    return (isNode || typeof PromiseRejectionEvent == 'function') && promise.then(empty) instanceof FakePromise;
+  } catch(e){ /* empty */ }
+}();
+
+// helpers
+var sameConstructor = function(a, b){
+  // with library wrapper special case
+  return a === b || a === $Promise && b === Wrapper;
+};
+var isThenable = function(it){
+  var then;
+  return _isObject(it) && typeof (then = it.then) == 'function' ? then : false;
+};
+var newPromiseCapability = function(C){
+  return sameConstructor($Promise, C)
+    ? new PromiseCapability(C)
+    : new GenericPromiseCapability(C);
+};
+var PromiseCapability = GenericPromiseCapability = function(C){
+  var resolve, reject;
+  this.promise = new C(function($$resolve, $$reject){
+    if(resolve !== undefined || reject !== undefined)throw TypeError$1('Bad Promise constructor');
+    resolve = $$resolve;
+    reject  = $$reject;
+  });
+  this.resolve = _aFunction(resolve);
+  this.reject  = _aFunction(reject);
+};
+var perform = function(exec){
+  try {
+    exec();
+  } catch(e){
+    return {error: e};
+  }
+};
+var notify = function(promise, isReject){
+  if(promise._n)return;
+  promise._n = true;
+  var chain = promise._c;
+  microtask(function(){
+    var value = promise._v
+      , ok    = promise._s == 1
+      , i     = 0;
+    var run = function(reaction){
+      var handler = ok ? reaction.ok : reaction.fail
+        , resolve = reaction.resolve
+        , reject  = reaction.reject
+        , domain  = reaction.domain
+        , result, then;
+      try {
+        if(handler){
+          if(!ok){
+            if(promise._h == 2)onHandleUnhandled(promise);
+            promise._h = 1;
+          }
+          if(handler === true)result = value;
+          else {
+            if(domain)domain.enter();
+            result = handler(value);
+            if(domain)domain.exit();
+          }
+          if(result === reaction.promise){
+            reject(TypeError$1('Promise-chain cycle'));
+          } else if(then = isThenable(result)){
+            then.call(result, resolve, reject);
+          } else resolve(result);
+        } else reject(value);
+      } catch(e){
+        reject(e);
+      }
+    };
+    while(chain.length > i)run(chain[i++]); // variable length - can't use forEach
+    promise._c = [];
+    promise._n = false;
+    if(isReject && !promise._h)onUnhandled(promise);
+  });
+};
+var onUnhandled = function(promise){
+  task.call(_global, function(){
+    var value = promise._v
+      , abrupt, handler, console;
+    if(isUnhandled(promise)){
+      abrupt = perform(function(){
+        if(isNode){
+          process$1.emit('unhandledRejection', value, promise);
+        } else if(handler = _global.onunhandledrejection){
+          handler({promise: promise, reason: value});
+        } else if((console = _global.console) && console.error){
+          console.error('Unhandled promise rejection', value);
+        }
+      });
+      // Browsers should not trigger `rejectionHandled` event if it was handled here, NodeJS - should
+      promise._h = isNode || isUnhandled(promise) ? 2 : 1;
+    } promise._a = undefined;
+    if(abrupt)throw abrupt.error;
+  });
+};
+var isUnhandled = function(promise){
+  if(promise._h == 1)return false;
+  var chain = promise._a || promise._c
+    , i     = 0
+    , reaction;
+  while(chain.length > i){
+    reaction = chain[i++];
+    if(reaction.fail || !isUnhandled(reaction.promise))return false;
+  } return true;
+};
+var onHandleUnhandled = function(promise){
+  task.call(_global, function(){
+    var handler;
+    if(isNode){
+      process$1.emit('rejectionHandled', promise);
+    } else if(handler = _global.onrejectionhandled){
+      handler({promise: promise, reason: promise._v});
+    }
+  });
+};
+var $reject = function(value){
+  var promise = this;
+  if(promise._d)return;
+  promise._d = true;
+  promise = promise._w || promise; // unwrap
+  promise._v = value;
+  promise._s = 2;
+  if(!promise._a)promise._a = promise._c.slice();
+  notify(promise, true);
+};
+var $resolve = function(value){
+  var promise = this
+    , then;
+  if(promise._d)return;
+  promise._d = true;
+  promise = promise._w || promise; // unwrap
+  try {
+    if(promise === value)throw TypeError$1("Promise can't be resolved itself");
+    if(then = isThenable(value)){
+      microtask(function(){
+        var wrapper = {_w: promise, _d: false}; // wrap
+        try {
+          then.call(value, _ctx($resolve, wrapper, 1), _ctx($reject, wrapper, 1));
+        } catch(e){
+          $reject.call(wrapper, e);
+        }
+      });
+    } else {
+      promise._v = value;
+      promise._s = 1;
+      notify(promise, false);
+    }
+  } catch(e){
+    $reject.call({_w: promise, _d: false}, e); // wrap
+  }
+};
+
+// constructor polyfill
+if(!USE_NATIVE){
+  // 25.4.3.1 Promise(executor)
+  $Promise = function Promise(executor){
+    _anInstance(this, $Promise, PROMISE, '_h');
+    _aFunction(executor);
+    Internal.call(this);
+    try {
+      executor(_ctx($resolve, this, 1), _ctx($reject, this, 1));
+    } catch(err){
+      $reject.call(this, err);
+    }
+  };
+  Internal = function Promise(executor){
+    this._c = [];             // <- awaiting reactions
+    this._a = undefined;      // <- checked in isUnhandled reactions
+    this._s = 0;              // <- state
+    this._d = false;          // <- done
+    this._v = undefined;      // <- value
+    this._h = 0;              // <- rejection state, 0 - default, 1 - handled, 2 - unhandled
+    this._n = false;          // <- notify
+  };
+  Internal.prototype = _redefineAll($Promise.prototype, {
+    // 25.4.5.3 Promise.prototype.then(onFulfilled, onRejected)
+    then: function then(onFulfilled, onRejected){
+      var reaction    = newPromiseCapability(_speciesConstructor(this, $Promise));
+      reaction.ok     = typeof onFulfilled == 'function' ? onFulfilled : true;
+      reaction.fail   = typeof onRejected == 'function' && onRejected;
+      reaction.domain = isNode ? process$1.domain : undefined;
+      this._c.push(reaction);
+      if(this._a)this._a.push(reaction);
+      if(this._s)notify(this, false);
+      return reaction.promise;
+    },
+    // 25.4.5.1 Promise.prototype.catch(onRejected)
+    'catch': function(onRejected){
+      return this.then(undefined, onRejected);
+    }
+  });
+  PromiseCapability = function(){
+    var promise  = new Internal;
+    this.promise = promise;
+    this.resolve = _ctx($resolve, promise, 1);
+    this.reject  = _ctx($reject, promise, 1);
+  };
+}
+
+_export(_export.G + _export.W + _export.F * !USE_NATIVE, {Promise: $Promise});
+_setToStringTag($Promise, PROMISE);
+_setSpecies(PROMISE);
+Wrapper = _core[PROMISE];
+
+// statics
+_export(_export.S + _export.F * !USE_NATIVE, PROMISE, {
+  // 25.4.4.5 Promise.reject(r)
+  reject: function reject(r){
+    var capability = newPromiseCapability(this)
+      , $$reject   = capability.reject;
+    $$reject(r);
+    return capability.promise;
+  }
+});
+_export(_export.S + _export.F * (_library || !USE_NATIVE), PROMISE, {
+  // 25.4.4.6 Promise.resolve(x)
+  resolve: function resolve(x){
+    // instanceof instead of internal slot check because we should fix it without replacement native Promise core
+    if(x instanceof $Promise && sameConstructor(x.constructor, this))return x;
+    var capability = newPromiseCapability(this)
+      , $$resolve  = capability.resolve;
+    $$resolve(x);
+    return capability.promise;
+  }
+});
+_export(_export.S + _export.F * !(USE_NATIVE && _iterDetect(function(iter){
+  $Promise.all(iter)['catch'](empty);
+})), PROMISE, {
+  // 25.4.4.1 Promise.all(iterable)
+  all: function all(iterable){
+    var C          = this
+      , capability = newPromiseCapability(C)
+      , resolve    = capability.resolve
+      , reject     = capability.reject;
+    var abrupt = perform(function(){
+      var values    = []
+        , index     = 0
+        , remaining = 1;
+      _forOf(iterable, false, function(promise){
+        var $index        = index++
+          , alreadyCalled = false;
+        values.push(undefined);
+        remaining++;
+        C.resolve(promise).then(function(value){
+          if(alreadyCalled)return;
+          alreadyCalled  = true;
+          values[$index] = value;
+          --remaining || resolve(values);
+        }, reject);
+      });
+      --remaining || resolve(values);
+    });
+    if(abrupt)reject(abrupt.error);
+    return capability.promise;
+  },
+  // 25.4.4.4 Promise.race(iterable)
+  race: function race(iterable){
+    var C          = this
+      , capability = newPromiseCapability(C)
+      , reject     = capability.reject;
+    var abrupt = perform(function(){
+      _forOf(iterable, false, function(promise){
+        C.resolve(promise).then(capability.resolve, reject);
+      });
+    });
+    if(abrupt)reject(abrupt.error);
+    return capability.promise;
+  }
+});
+
+var promise$2 = _core.Promise;
+
+var promise = createCommonjsModule(function (module) {
+module.exports = { "default": promise$2, __esModule: true };
+});
+
+var asyncToGenerator = createCommonjsModule(function (module, exports) {
+"use strict";
+
+exports.__esModule = true;
+
+
+
+var _promise2 = _interopRequireDefault(promise);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (fn) {
+  return function () {
+    var gen = fn.apply(this, arguments);
+    return new _promise2.default(function (resolve, reject) {
+      function step(key, arg) {
+        try {
+          var info = gen[key](arg);
+          var value = info.value;
+        } catch (error) {
+          reject(error);
+          return;
+        }
+
+        if (info.done) {
+          resolve(value);
+        } else {
+          return _promise2.default.resolve(value).then(function (value) {
+            step("next", value);
+          }, function (err) {
+            step("throw", err);
+          });
+        }
+      }
+
+      return step("next");
+    });
+  };
+};
+});
+
+var _asyncToGenerator = unwrapExports(asyncToGenerator);
+
+var classCallCheck = createCommonjsModule(function (module, exports) {
+"use strict";
+
+exports.__esModule = true;
+
+exports.default = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+};
+});
+
+var _classCallCheck = unwrapExports(classCallCheck);
+
+// 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
+_export(_export.S + _export.F * !_descriptors, 'Object', {defineProperty: _objectDp.f});
+
+var $Object = _core.Object;
+var defineProperty$2 = function defineProperty(it, key, desc){
+  return $Object.defineProperty(it, key, desc);
+};
+
+var defineProperty = createCommonjsModule(function (module) {
+module.exports = { "default": defineProperty$2, __esModule: true };
+});
+
+var createClass = createCommonjsModule(function (module, exports) {
+"use strict";
+
+exports.__esModule = true;
+
+
+
+var _defineProperty2 = _interopRequireDefault(defineProperty);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      (0, _defineProperty2.default)(target, descriptor.key, descriptor);
+    }
+  }
+
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+}();
+});
+
+var _createClass = unwrapExports(createClass);
+
+var Soshoku = function () {
+  function Soshoku(func) {
+    _classCallCheck(this, Soshoku);
+
+    this.func = func;
+
+    this.__pending = false;
+    this.__processing = false;
+  }
+
+  _createClass(Soshoku, [{
+    key: "exec",
+    value: function () {
+      var _ref = _asyncToGenerator(index.mark(function _callee() {
+        return index.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!this.__processing) {
+                  _context.next = 3;
+                  break;
+                }
+
+                this.__pending = true;
+                return _context.abrupt("return");
+
+              case 3:
+
+                this.__processing = true;
+                _context.next = 6;
+                return this.func();
+
+              case 6:
+                this.__processing = false;
+
+                if (!this.__pending) {
+                  _context.next = 11;
+                  break;
+                }
+
+                this.__pending = false;
+                _context.next = 11;
+                return this.exec();
+
+              case 11:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function exec() {
+        return _ref.apply(this, arguments);
+      }
+
+      return exec;
+    }()
+  }]);
+
+  return Soshoku;
+}();
+
+return Soshoku;
+
+}());
 
 //# sourceMappingURL=soshoku.js.map

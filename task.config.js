@@ -1,5 +1,8 @@
+import fs from 'fs';
+import pify from 'pify';
 import Case from 'case';
 import ora from 'ora';
+import aru from 'aru';
 import meow from 'meow';
 import chokidar from 'chokidar';
 import debounce from 'lodash/debounce';
@@ -34,7 +37,6 @@ data.set({
  */
 `.trim(),
   format: cli.flags.format || 'iife'
-  // dependencies: Object.keys(pkg.dependencies)
 });
 
 construction.set({
@@ -58,6 +60,10 @@ construction.set({
 });
 
 (async () => {
+  const access = pify(fs.access);
+  await aru('style', access(construction.get('style').src));
+  await aru('script', access(construction.get('script').src));
+
   switch (cli.input[0]) {
     default:
     case 'dev': {
@@ -84,8 +90,8 @@ construction.set({
 async function build(task, ev = null) {
   const spinner = startOra();
   try {
-    // await style.process();
-    await script.process();
+    await aru.right('style', style.process);
+    await aru.right('script', script.process);
     spinner.succeed(`[${task}${ev ? ':' + ev : ''}] Process succeed`);
   } catch (err) {
     spinner.fail(`[${task}${ev ? ':' + ev : ''}] Process fail`);

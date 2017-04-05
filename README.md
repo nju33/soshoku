@@ -16,7 +16,30 @@ Then, download the latest version.
 
 ## Usage
 
-### HTML
+```js
+import soshoku from 'soshoku';
+const soshoku = require('soshoku');
+```
+
+or
+
+```html
+<script src="/path/tp/soshoku.js"></script>
+```
+
+### API
+
+#### `constructor(func)`
+
+- `func`: `Promise`
+
+Register function.
+
+#### `exec()`
+
+Execute function.
+
+### Example
 
 ```js
 import Soshoku from 'soshoku';
@@ -40,22 +63,6 @@ setTimeout(soshoku.exec, 2000);
 // And after 5s we also get 'called!'.
 // But after 5s there is nothing.
 ```
-
-### API
-
-#### `constructor(func)`
-
-- `func`: `Promise`
-
-Register function.
-
-#### `exec()`
-
-Execute function.
-
-### Example
-
-- `test/fixtures/`
 
 ## LICENSE
 

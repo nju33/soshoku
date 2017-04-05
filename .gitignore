@@ -66,5 +66,7 @@ Temporary Items
 /dist/**
 !/dist/.gitkeep
 !/dist/soshoku.js
+!/dist/soshoku.js.map
 !/dist/soshoku.min.js
+!/dist/soshoku.min.js.map
 /lib/styles/*
